@@ -7,29 +7,30 @@ interface Stall {
   id: string;
   stallNumber: string;
   horseName: string;
+  price: number;
   comments: string;
 }
 
 const initialStalls: Stall[] = [
-  { id: "1", stallNumber: "1", horseName: "Thunder", comments: "Vajab igapäevast liikumist" },
-  { id: "2", stallNumber: "2", horseName: "Luna", comments: "Tundlik kõrini" },
-  { id: "3", stallNumber: "3", horseName: "", comments: "Tühi boks" },
-  { id: "4", stallNumber: "4", horseName: "Storm", comments: "" },
-  { id: "5", stallNumber: "5", horseName: "", comments: "Remondi all" },
+  { id: "1", stallNumber: "1", horseName: "Thunder", price: 350, comments: "Vajab igapäevast liikumist" },
+  { id: "2", stallNumber: "2", horseName: "Luna", price: 350, comments: "Tundlik kõrini" },
+  { id: "3", stallNumber: "3", horseName: "", price: 0, comments: "Tühi boks" },
+  { id: "4", stallNumber: "4", horseName: "Storm", price: 350, comments: "" },
+  { id: "5", stallNumber: "5", horseName: "", price: 0, comments: "Remondi all" },
 ];
 
 export default function DashboardPage() {
   const [stalls, setStalls] = useState<Stall[]>(initialStalls);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingStall, setEditingStall] = useState<Stall | null>(null);
-  const [formData, setFormData] = useState({ stallNumber: "", horseName: "", comments: "" });
+  const [formData, setFormData] = useState({ stallNumber: "", horseName: "", price: 350, comments: "" });
 
   // Calculate stats
   const totalStalls = stalls.length;
   const occupiedStalls = stalls.filter(s => s.horseName.trim() !== "").length;
   const occupancyRate = totalStalls > 0 ? Math.round((occupiedStalls / totalStalls) * 100) : 0;
   const totalHorses = occupiedStalls;
-  const monthlyRevenue = occupiedStalls * 350; // Example calculation
+  const monthlyRevenue = stalls.reduce((sum, stall) => sum + (stall.horseName.trim() !== "" ? stall.price : 0), 0);
   const totalRevenue = monthlyRevenue * 12;
 
   const handleAdd = () => {
@@ -38,13 +39,13 @@ export default function DashboardPage() {
       return;
     }
     setEditingStall(null);
-    setFormData({ stallNumber: "", horseName: "", comments: "" });
+    setFormData({ stallNumber: "", horseName: "", price: 350, comments: "" });
     setIsFormOpen(true);
   };
 
   const handleEdit = (stall: Stall) => {
     setEditingStall(stall);
-    setFormData({ stallNumber: stall.stallNumber, horseName: stall.horseName, comments: stall.comments });
+    setFormData({ stallNumber: stall.stallNumber, horseName: stall.horseName, price: stall.price, comments: stall.comments });
     setIsFormOpen(true);
   };
 
@@ -125,6 +126,9 @@ export default function DashboardPage() {
                     Hobuse Nimi
                   </th>
                   <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">
+                    Hind (€/kuu)
+                  </th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">
                     Kommentaarid
                   </th>
                   <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">
@@ -137,6 +141,7 @@ export default function DashboardPage() {
                   <tr key={stall.id} className="border-b border-gray-100 hover:bg-gray-50">
                     <td className="py-3 px-4 font-medium">{stall.stallNumber}</td>
                     <td className="py-3 px-4">{stall.horseName || "-"}</td>
+                    <td className="py-3 px-4">€{stall.price}</td>
                     <td className="py-3 px-4 text-sm text-gray-600">{stall.comments || "-"}</td>
                     <td className="py-3 px-4">
                       <div className="flex gap-2">
@@ -212,6 +217,21 @@ export default function DashboardPage() {
                   type="text"
                   value={formData.horseName}
                   onChange={(e) => setFormData({ ...formData, horseName: e.target.value })}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Hind (€/kuu) *
+                </label>
+                <input
+                  type="number"
+                  value={formData.price}
+                  onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                  required
+                  min="0"
+                  step="10"
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                 />
               </div>
