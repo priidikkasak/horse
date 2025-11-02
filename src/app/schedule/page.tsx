@@ -2,19 +2,24 @@
 
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
+import TrainingForm from "@/components/TrainingForm";
 import { mockLessons, mockTrainers, mockHorses } from "@/lib/data";
+import { Lesson } from "@/types";
 
 export default function SchedulePage() {
   const [view, setView] = useState<"weekly" | "daily">("weekly");
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
+  const [trainings, setTrainings] = useState<Lesson[]>(mockLessons);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingTraining, setEditingTraining] = useState<Lesson | null>(null);
 
   const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
   // Group lessons by day of week
   const getLessonsByDayOfWeek = () => {
-    const lessonsByDay: { [key: number]: typeof mockLessons } = {};
+    const lessonsByDay: { [key: number]: Lesson[] } = {};
 
-    mockLessons.forEach((lesson) => {
+    trainings.forEach((lesson) => {
       const dayOfWeek = new Date(lesson.date).getDay();
       if (!lessonsByDay[dayOfWeek]) {
         lessonsByDay[dayOfWeek] = [];
@@ -31,7 +36,7 @@ export default function SchedulePage() {
   };
 
   // Filter lessons by selected date
-  const filteredLessons = mockLessons.filter((lesson) => {
+  const filteredLessons = trainings.filter((lesson) => {
     const lessonDate = new Date(lesson.date).toISOString().split("T")[0];
     return lessonDate === selectedDate;
   }).sort((a, b) => a.startTime.localeCompare(b.startTime));
@@ -45,6 +50,37 @@ export default function SchedulePage() {
     return mockHorses.find((h) => h.id === id)?.name || "Unknown";
   };
 
+  // Handlers
+  const handleAddTraining = () => {
+    setEditingTraining(null);
+    setIsFormOpen(true);
+  };
+
+  const handleEditTraining = (training: Lesson) => {
+    setEditingTraining(training);
+    setIsFormOpen(true);
+  };
+
+  const handleSaveTraining = (trainingData: Partial<Lesson>) => {
+    if (editingTraining) {
+      // Update existing training
+      setTrainings(trainings.map((t) =>
+        t.id === editingTraining.id ? { ...t, ...trainingData } as Lesson : t
+      ));
+    } else {
+      // Add new training
+      setTrainings([...trainings, trainingData as Lesson]);
+    }
+    setIsFormOpen(false);
+    setEditingTraining(null);
+  };
+
+  const handleDeleteTraining = (id: string) => {
+    if (confirm("Are you sure you want to delete this training?")) {
+      setTrainings(trainings.filter((t) => t.id !== id));
+    }
+  };
+
   const lessonsByDay = getLessonsByDayOfWeek();
 
   return (
@@ -54,10 +90,23 @@ export default function SchedulePage() {
       <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Training Schedules</h1>
-          <button className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors">
+          <button
+            onClick={handleAddTraining}
+            className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
+          >
             Book New Training
           </button>
         </div>
+
+        <TrainingForm
+          isOpen={isFormOpen}
+          onClose={() => {
+            setIsFormOpen(false);
+            setEditingTraining(null);
+          }}
+          onSave={handleSaveTraining}
+          training={editingTraining}
+        />
 
         {/* View Toggle */}
         <div className="mb-6 flex gap-2">
@@ -128,17 +177,33 @@ export default function SchedulePage() {
                               </div>
                             </div>
                           </div>
-                          <span
-                            className={`px-3 py-1 text-xs rounded-full ${
-                              lesson.type === "private"
-                                ? "bg-purple-100 text-purple-800"
-                                : lesson.type === "group"
-                                ? "bg-blue-100 text-blue-800"
-                                : "bg-green-100 text-green-800"
-                            }`}
-                          >
-                            {lesson.type}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`px-3 py-1 text-xs rounded-full ${
+                                lesson.type === "private"
+                                  ? "bg-purple-100 text-purple-800"
+                                  : lesson.type === "group"
+                                  ? "bg-blue-100 text-blue-800"
+                                  : "bg-green-100 text-green-800"
+                              }`}
+                            >
+                              {lesson.type}
+                            </span>
+                            <button
+                              onClick={() => handleEditTraining(lesson)}
+                              className="text-gray-600 hover:text-gray-900 px-2 py-1 text-sm"
+                              title="Edit training"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDeleteTraining(lesson.id)}
+                              className="text-red-600 hover:text-red-800 px-2 py-1 text-sm"
+                              title="Delete training"
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -210,17 +275,33 @@ export default function SchedulePage() {
                             </div>
                           </div>
                         </div>
-                        <span
-                          className={`px-3 py-1 text-xs rounded-full ${
-                            lesson.type === "private"
-                              ? "bg-purple-100 text-purple-800"
-                              : lesson.type === "group"
-                              ? "bg-blue-100 text-blue-800"
-                              : "bg-green-100 text-green-800"
-                          }`}
-                        >
-                          {lesson.type}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`px-3 py-1 text-xs rounded-full ${
+                              lesson.type === "private"
+                                ? "bg-purple-100 text-purple-800"
+                                : lesson.type === "group"
+                                ? "bg-blue-100 text-blue-800"
+                                : "bg-green-100 text-green-800"
+                            }`}
+                          >
+                            {lesson.type}
+                          </span>
+                          <button
+                            onClick={() => handleEditTraining(lesson)}
+                            className="text-gray-600 hover:text-gray-900 px-2 py-1 text-sm"
+                            title="Edit training"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteTraining(lesson.id)}
+                            className="text-red-600 hover:text-red-800 px-2 py-1 text-sm"
+                            title="Delete training"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
