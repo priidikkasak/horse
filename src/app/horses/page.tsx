@@ -9,9 +9,9 @@ export default function HorsesPage() {
 
       <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Horse Registry</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Hobuste Register</h1>
           <button className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors">
-            Add New Horse
+            Lisa Uus Hobune
           </button>
         </div>
 
@@ -39,24 +39,24 @@ export default function HorsesPage() {
 
               <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex justify-between">
-                  <span className="font-medium">Breed:</span>
+                  <span className="font-medium">Tõug:</span>
                   <span>{horse.breed}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-medium">Age:</span>
-                  <span>{horse.age} years</span>
+                  <span className="font-medium">Vanus:</span>
+                  <span>{horse.age} aastat</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-medium">Color:</span>
+                  <span className="font-medium">Värv:</span>
                   <span>{horse.color}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-medium">Owner:</span>
+                  <span className="font-medium">Omanik:</span>
                   <span>{horse.owner}</span>
                 </div>
                 {horse.stallNumber && (
                   <div className="flex justify-between">
-                    <span className="font-medium">Stall:</span>
+                    <span className="font-medium">Boks:</span>
                     <span>{horse.stallNumber}</span>
                   </div>
                 )}
@@ -67,7 +67,7 @@ export default function HorsesPage() {
 
         {mockHorses.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500">No horses registered yet.</p>
+            <p className="text-gray-500">Hobuseid pole veel registreeritud.</p>
           </div>
         )}
       </main>

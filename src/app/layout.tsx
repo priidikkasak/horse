@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Horse Stable Management",
-  description: "Manage your horse stable efficiently",
+  title: "Pariisi Tall - Haldussüsteem",
+  description: "Halda oma talli tõhusalt",
 };
 
 export default function RootLayout({

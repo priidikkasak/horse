@@ -7,7 +7,7 @@ export default function Navigation() {
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
             <Link href="/" className="text-2xl font-semibold text-gray-900">
-              Horse Stable
+              Pariisi Tall
             </Link>
           </div>
           <div className="flex space-x-1">
@@ -15,25 +15,25 @@ export default function Navigation() {
               href="/dashboard"
               className="text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-4 py-2 rounded-md transition-colors"
             >
-              Dashboard
+              Ülevaade
             </Link>
             <Link
               href="/horses"
               className="text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-4 py-2 rounded-md transition-colors"
             >
-              Horses
+              Hobused
             </Link>
             <Link
               href="/trainers"
               className="text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-4 py-2 rounded-md transition-colors"
             >
-              Trainers
+              Treenerid
             </Link>
             <Link
               href="/schedule"
               className="text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-4 py-2 rounded-md transition-colors"
             >
-              Schedule
+              Graafik
             </Link>
           </div>
         </div>
