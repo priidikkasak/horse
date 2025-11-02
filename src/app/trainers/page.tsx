@@ -7,6 +7,7 @@ import { Trainer } from "@/types";
 
 export default function TrainersPage() {
   const [trainers, setTrainers] = useState<Trainer[]>([]);
+  const [view, setView] = useState<"grid" | "list">("grid");
 
   // Load trainers from localStorage on mount
   useEffect(() => {
@@ -98,16 +99,42 @@ export default function TrainersPage() {
           </Link>
         </div>
 
-        <div className="flex justify-between items-center mb-12">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <h1 className="text-4xl sm:text-5xl font-semibold text-gray-900 tracking-tight">Treenerid</h1>
           <button
             onClick={handleAdd}
-            className="bg-gray-900 text-white px-6 py-3 rounded-2xl hover:bg-gray-800 transition-all duration-200 font-medium"
+            className="bg-gray-900 text-white px-6 py-3 rounded-2xl hover:bg-gray-800 transition-all duration-200 font-medium whitespace-nowrap"
           >
             Lisa Uus Treener
           </button>
         </div>
 
+        {/* View Toggle */}
+        <div className="mb-8 flex gap-3">
+          <button
+            onClick={() => setView("grid")}
+            className={`px-6 py-3 rounded-2xl transition-all duration-200 font-medium ${
+              view === "grid"
+                ? "bg-gray-900 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
+          >
+            Kaartide Vaade
+          </button>
+          <button
+            onClick={() => setView("list")}
+            className={`px-6 py-3 rounded-2xl transition-all duration-200 font-medium ${
+              view === "list"
+                ? "bg-gray-900 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
+          >
+            Loendi Vaade
+          </button>
+        </div>
+
+        {/* Grid View */}
+        {view === "grid" && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {trainers.map((trainer) => (
             <div
@@ -165,6 +192,53 @@ export default function TrainersPage() {
             </div>
           ))}
         </div>
+        )}
+
+        {/* List View */}
+        {view === "list" && (
+          <div className="bg-gray-50 rounded-3xl border border-gray-200/50 p-6 sm:p-8">
+            <div className="space-y-4">
+              {trainers.map((trainer) => (
+                <div
+                  key={trainer.id}
+                  className="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6 hover:bg-gray-50 transition-all duration-200"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="flex-1">
+                      <h2 className="text-xl font-semibold text-gray-900 mb-3">{trainer.name}</h2>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm text-gray-900 mb-3">
+                        <div>
+                          <span className="font-medium">Email:</span> {trainer.email}
+                        </div>
+                        <div>
+                          <span className="font-medium">Telefon:</span> {trainer.phone}
+                        </div>
+                        <div>
+                          <span className="font-medium">Erialad:</span>{" "}
+                          {trainer.specialties.join(", ")}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex sm:flex-col gap-2">
+                      <button
+                        onClick={() => handleEdit(trainer)}
+                        className="flex-1 sm:flex-none text-gray-700 hover:text-gray-900 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-xl text-sm font-medium transition-all duration-200"
+                      >
+                        Muuda
+                      </button>
+                      <button
+                        onClick={() => handleDelete(trainer.id)}
+                        className="flex-1 sm:flex-none text-red-600 hover:text-red-700 px-4 py-2 bg-red-50 hover:bg-red-100 rounded-xl text-sm font-medium transition-all duration-200"
+                      >
+                        Kustuta
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {trainers.length === 0 && (
           <div className="text-center py-12">

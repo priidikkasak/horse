@@ -7,6 +7,7 @@ import { Horse } from "@/types";
 
 export default function HorsesPage() {
   const [horses, setHorses] = useState<Horse[]>([]);
+  const [view, setView] = useState<"grid" | "list">("grid");
 
   // Load horses from localStorage on mount
   useEffect(() => {
@@ -99,16 +100,42 @@ export default function HorsesPage() {
           </Link>
         </div>
 
-        <div className="flex justify-between items-center mb-12">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <h1 className="text-4xl sm:text-5xl font-semibold text-gray-900 tracking-tight">Hobused</h1>
           <button
             onClick={handleAdd}
-            className="bg-gray-900 text-white px-6 py-3 rounded-2xl hover:bg-gray-800 transition-all duration-200 font-medium"
+            className="bg-gray-900 text-white px-6 py-3 rounded-2xl hover:bg-gray-800 transition-all duration-200 font-medium whitespace-nowrap"
           >
             Lisa Uus Hobune
           </button>
         </div>
 
+        {/* View Toggle */}
+        <div className="mb-8 flex gap-3">
+          <button
+            onClick={() => setView("grid")}
+            className={`px-6 py-3 rounded-2xl transition-all duration-200 font-medium ${
+              view === "grid"
+                ? "bg-gray-900 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
+          >
+            Kaartide Vaade
+          </button>
+          <button
+            onClick={() => setView("list")}
+            className={`px-6 py-3 rounded-2xl transition-all duration-200 font-medium ${
+              view === "list"
+                ? "bg-gray-900 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
+          >
+            Loendi Vaade
+          </button>
+        </div>
+
+        {/* Grid View */}
+        {view === "grid" && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {horses.map((horse) => (
             <div
@@ -184,6 +211,78 @@ export default function HorsesPage() {
             </div>
           ))}
         </div>
+        )}
+
+        {/* List View */}
+        {view === "list" && (
+          <div className="bg-gray-50 rounded-3xl border border-gray-200/50 p-6 sm:p-8">
+            <div className="space-y-4">
+              {horses.map((horse) => (
+                <div
+                  key={horse.id}
+                  className="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6 hover:bg-gray-50 transition-all duration-200"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-3">
+                        <Link href={`/horses/${horse.id}`}>
+                          <h2 className="text-xl font-semibold text-gray-900 hover:text-gray-700 transition-colors">
+                            {horse.name}
+                          </h2>
+                        </Link>
+                        <span
+                          className={`px-2 py-1 text-xs rounded-full ${
+                            horse.status === "active"
+                              ? "bg-green-100 text-green-800"
+                              : horse.status === "injured"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : "bg-gray-100 text-gray-800"
+                          }`}
+                        >
+                          {horse.status}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm text-gray-900">
+                        <div>
+                          <span className="font-medium">Tõug:</span> {horse.breed}
+                        </div>
+                        <div>
+                          <span className="font-medium">Vanus:</span> {horse.age} aastat
+                        </div>
+                        <div>
+                          <span className="font-medium">Värv:</span> {horse.color}
+                        </div>
+                        <div>
+                          <span className="font-medium">Omanik:</span> {horse.owner}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex sm:flex-col gap-2">
+                      <Link
+                        href={`/horses/${horse.id}`}
+                        className="flex-1 sm:flex-none text-center bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-gray-800 transition-all duration-200"
+                      >
+                        Vaata
+                      </Link>
+                      <button
+                        onClick={() => handleEdit(horse)}
+                        className="flex-1 sm:flex-none text-gray-700 hover:text-gray-900 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-xl text-sm font-medium transition-all duration-200"
+                      >
+                        Muuda
+                      </button>
+                      <button
+                        onClick={() => handleDelete(horse.id)}
+                        className="flex-1 sm:flex-none text-red-600 hover:text-red-700 px-4 py-2 bg-red-50 hover:bg-red-100 rounded-xl text-sm font-medium transition-all duration-200"
+                      >
+                        Kustuta
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {horses.length === 0 && (
           <div className="text-center py-12">
