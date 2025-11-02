@@ -99,25 +99,25 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">
+    <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-8">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-semibold text-gray-900">
               {training ? "Muuda Treeningut" : "Lisa Uus Treening"}
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-2xl"
+              className="text-gray-400 hover:text-gray-600 text-3xl transition-colors"
             >
               ×
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Type field first */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-base font-medium text-gray-700 mb-2">
                 Tüüp *
               </label>
               <select
@@ -125,7 +125,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                 value={formData.type}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-medium focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
               >
                 <option value="private">Privaatne</option>
                 <option value="group">Grupp</option>
@@ -138,9 +138,9 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
               )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-base font-medium text-gray-700 mb-2">
                   Treener *
                 </label>
                 <select
@@ -148,7 +148,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                   value={formData.trainerId}
                   onChange={handleChange}
                   required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-medium focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                 >
                   <option value="">Vali treener</option>
                   {mockTrainers.map((trainer) => (
@@ -161,7 +161,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
 
               {!isGroupTraining && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-base font-medium text-gray-700 mb-2">
                     Hobune *
                   </label>
                   <select
@@ -169,7 +169,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                     value={formData.horseId}
                     onChange={handleChange}
                     required
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-medium focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   >
                     <option value="">Vali hobune</option>
                     {mockHorses.map((horse) => (
@@ -183,7 +183,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
 
               {!isGroupTraining && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-base font-medium text-gray-700 mb-2">
                     Kliendi Nimi *
                   </label>
                   <input
@@ -192,14 +192,14 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                     value={formData.clientName}
                     onChange={handleChange}
                     required
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-medium focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   />
                 </div>
               )}
 
               {!isGroupTraining && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-base font-medium text-gray-700 mb-2">
                     Kliendi Email *
                   </label>
                   <input
@@ -208,13 +208,13 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                     value={formData.clientEmail}
                     onChange={handleChange}
                     required
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-medium focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   />
                 </div>
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-base font-medium text-gray-700 mb-2">
                   Kuupäev *
                 </label>
                 <input
@@ -223,12 +223,12 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                   value={formData.date}
                   onChange={handleChange}
                   required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-medium focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-base font-medium text-gray-700 mb-2">
                   Kestus (minutit) *
                 </label>
                 <input
@@ -239,12 +239,12 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                   required
                   min="15"
                   step="15"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-medium focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-base font-medium text-gray-700 mb-2">
                   Algusaeg *
                 </label>
                 <input
@@ -253,12 +253,12 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                   value={formData.startTime}
                   onChange={handleChange}
                   required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-medium focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-base font-medium text-gray-700 mb-2">
                   Lõpuaeg *
                 </label>
                 <input
@@ -267,12 +267,12 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                   value={formData.endTime}
                   onChange={handleChange}
                   required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-medium focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-base font-medium text-gray-700 mb-2">
                   Staatus *
                 </label>
                 <select
@@ -280,7 +280,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                   value={formData.status}
                   onChange={handleChange}
                   required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-medium focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                 >
                   <option value="scheduled">Planeeritud</option>
                   <option value="completed">Lõpetatud</option>
@@ -290,7 +290,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
 
               {!isGroupTraining && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-base font-medium text-gray-700 mb-2">
                     Hind (€) *
                   </label>
                   <input
@@ -301,14 +301,14 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                     required
                     min="0"
                     step="5"
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-medium focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   />
                 </div>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-base font-medium text-gray-700 mb-2">
                 Märkmed
               </label>
               <textarea
@@ -316,21 +316,21 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                 value={formData.notes}
                 onChange={handleChange}
                 rows={3}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 font-medium focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
               />
             </div>
 
-            <div className="flex justify-end gap-3 pt-4">
+            <div className="flex justify-end gap-4 pt-6">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                className="px-6 py-3 bg-gray-100 text-gray-700 rounded-2xl hover:bg-gray-200 transition-all duration-200 font-medium"
               >
                 Tühista
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800"
+                className="px-6 py-3 bg-gray-900 text-white rounded-2xl hover:bg-gray-800 transition-all duration-200 font-medium"
               >
                 {training ? "Uuenda Treeningut" : "Lisa Treening"}
               </button>
