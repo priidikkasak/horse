@@ -45,17 +45,17 @@ export default function Home() {
             </button>
           </Link>
 
-          {/* Graafik Card */}
+          {/* Treeningud Card */}
           <Link
             href="/schedule"
             className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col"
           >
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Treeninggraafikud</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Treeningud</h3>
             <p className="text-gray-600 text-sm mb-6 flex-grow">
-              Vaata treeninggraafikuid päevade ja aegade kaupa koos treeneritega
+              Vaata treeninguid päevade ja aegade kaupa koos treeneritega
             </p>
             <button className="w-full bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-800 text-sm">
-              Vaata Graafikut
+              Vaata Treeninguid
             </button>
           </Link>
 
