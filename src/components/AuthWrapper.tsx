@@ -87,18 +87,5 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
     );
   }
 
-  return (
-    <>
-      {/* Logout Button */}
-      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50">
-        <button
-          onClick={handleLogout}
-          className="bg-white text-gray-900 border-2 border-gray-900 px-4 py-2 sm:px-6 sm:py-3 rounded-2xl hover:bg-gray-50 transition-all duration-200 font-medium text-sm"
-        >
-          Logi välja
-        </button>
-      </div>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }
