@@ -51,9 +51,9 @@ export default function Home() {
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <h3 className="text-lg font-semibold mb-2">Trainer Schedules</h3>
+              <h3 className="text-lg font-semibold mb-2">Training Schedules</h3>
               <p className="text-gray-600 mb-4">
-                Manage trainer availability and view real-time open slots
+                View training schedules by day and time with assigned trainers
               </p>
               <Link
                 href="/schedule"
