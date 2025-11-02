@@ -5,72 +5,92 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+    <div className="min-h-screen bg-white">
+      <main className="max-w-7xl mx-auto py-16 px-6 sm:px-8 lg:px-12">
+        <div className="text-center mb-20">
+          <h1 className="text-5xl sm:text-6xl font-semibold text-gray-900 mb-6 tracking-tight">
             Pariisi Tall
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-2xl text-gray-500 font-light">
             Talli Haldussüsteem
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Hobused Card */}
           <Link
             href="/horses"
-            className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col"
+            className="group bg-gray-50 p-8 rounded-3xl hover:bg-gray-100 transition-all duration-200 flex flex-col border border-gray-200/50"
           >
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Hobuste Register</h3>
-            <p className="text-gray-600 text-sm mb-6 flex-grow">
-              Halda hobuste profiile, meditsiiniandmeid, vaktsineerimisi ja treeningmärkmed
-            </p>
-            <button className="w-full bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-800 text-sm">
-              Vaata Hobuseid
-            </button>
+            <div className="mb-8">
+              <div className="w-14 h-14 bg-blue-500 rounded-2xl mb-6 flex items-center justify-center">
+                <span className="text-2xl">🐴</span>
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-3">Hobuste Register</h3>
+              <p className="text-gray-500 text-base leading-relaxed flex-grow">
+                Halda hobuste profiile, meditsiiniandmeid ja treeningmärkmed
+              </p>
+            </div>
+            <div className="mt-auto">
+              <span className="text-blue-500 font-medium group-hover:text-blue-600">Vaata →</span>
+            </div>
           </Link>
 
           {/* Treenerid Card */}
           <Link
             href="/trainers"
-            className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col"
+            className="group bg-gray-50 p-8 rounded-3xl hover:bg-gray-100 transition-all duration-200 flex flex-col border border-gray-200/50"
           >
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Treenerid</h3>
-            <p className="text-gray-600 text-sm mb-6 flex-grow">
-              Halda treenerite profiile ja nende erialasid
-            </p>
-            <button className="w-full bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-800 text-sm">
-              Vaata Treenereid
-            </button>
+            <div className="mb-8">
+              <div className="w-14 h-14 bg-green-500 rounded-2xl mb-6 flex items-center justify-center">
+                <span className="text-2xl">👥</span>
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-3">Treenerid</h3>
+              <p className="text-gray-500 text-base leading-relaxed flex-grow">
+                Halda treenerite profiile ja nende erialasid
+              </p>
+            </div>
+            <div className="mt-auto">
+              <span className="text-green-500 font-medium group-hover:text-green-600">Vaata →</span>
+            </div>
           </Link>
 
           {/* Treeningud Card */}
           <Link
             href="/schedule"
-            className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col"
+            className="group bg-gray-50 p-8 rounded-3xl hover:bg-gray-100 transition-all duration-200 flex flex-col border border-gray-200/50"
           >
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Treeningud</h3>
-            <p className="text-gray-600 text-sm mb-6 flex-grow">
-              Vaata treeninguid päevade ja aegade kaupa koos treeneritega
-            </p>
-            <button className="w-full bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-800 text-sm">
-              Vaata Treeninguid
-            </button>
+            <div className="mb-8">
+              <div className="w-14 h-14 bg-purple-500 rounded-2xl mb-6 flex items-center justify-center">
+                <span className="text-2xl">📅</span>
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-3">Treeningud</h3>
+              <p className="text-gray-500 text-base leading-relaxed flex-grow">
+                Vaata treeninguid päevade ja aegade kaupa
+              </p>
+            </div>
+            <div className="mt-auto">
+              <span className="text-purple-500 font-medium group-hover:text-purple-600">Vaata →</span>
+            </div>
           </Link>
 
           {/* Ülevaade Card */}
           <Link
             href="/dashboard"
-            className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col"
+            className="group bg-gray-50 p-8 rounded-3xl hover:bg-gray-100 transition-all duration-200 flex flex-col border border-gray-200/50"
           >
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Ülevaade</h3>
-            <p className="text-gray-600 text-sm mb-6 flex-grow">
-              Jälgi täituvust, tulu, treeninguid ja hobuste kasutust
-            </p>
-            <button className="w-full bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-800 text-sm">
-              Vaata Ülevaadet
-            </button>
+            <div className="mb-8">
+              <div className="w-14 h-14 bg-orange-500 rounded-2xl mb-6 flex items-center justify-center">
+                <span className="text-2xl">📊</span>
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-3">Ülevaade</h3>
+              <p className="text-gray-500 text-base leading-relaxed flex-grow">
+                Jälgi täituvust, tulu ja hobuste kasutust
+              </p>
+            </div>
+            <div className="mt-auto">
+              <span className="text-orange-500 font-medium group-hover:text-orange-600">Vaata →</span>
+            </div>
           </Link>
         </div>
       </main>

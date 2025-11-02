@@ -73,43 +73,43 @@ export default function TrainersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <div className="mb-6">
-          <Link href="/" className="text-gray-600 hover:text-gray-900">
+    <div className="min-h-screen bg-white">
+      <main className="max-w-7xl mx-auto py-12 px-6 sm:px-8 lg:px-12">
+        <div className="mb-8">
+          <Link href="/" className="text-gray-500 hover:text-gray-900 text-base font-medium transition-colors">
             ← Tagasi avalehele
           </Link>
         </div>
 
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Treenerid</h1>
+        <div className="flex justify-between items-center mb-12">
+          <h1 className="text-4xl sm:text-5xl font-semibold text-gray-900 tracking-tight">Treenerid</h1>
           <button
             onClick={handleAdd}
-            className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
+            className="bg-gray-900 text-white px-6 py-3 rounded-2xl hover:bg-gray-800 transition-all duration-200 font-medium"
           >
             Lisa Uus Treener
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {trainers.map((trainer) => (
             <div
               key={trainer.id}
-              className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+              className="bg-gray-50 rounded-3xl border border-gray-200/50 p-6 sm:p-8 hover:bg-gray-100 transition-all duration-200"
             >
-              <div className="flex justify-between items-start mb-3">
-                <h2 className="text-xl font-semibold text-gray-900">{trainer.name}</h2>
-                <div className="flex gap-2">
+              <div className="flex justify-between items-start mb-6">
+                <h2 className="text-2xl font-semibold text-gray-900">{trainer.name}</h2>
+                <div className="flex gap-3">
                   <button
                     onClick={() => handleEdit(trainer)}
-                    className="text-gray-600 hover:text-gray-900 text-sm"
+                    className="text-gray-700 hover:text-gray-900 text-sm font-medium px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200"
                     title="Muuda"
                   >
                     Muuda
                   </button>
                   <button
                     onClick={() => handleDelete(trainer.id)}
-                    className="text-red-600 hover:text-red-800 text-sm"
+                    className="text-red-600 hover:text-red-700 text-sm font-medium px-3 py-2 bg-red-50 hover:bg-red-100 rounded-xl transition-all duration-200"
                     title="Kustuta"
                   >
                     Kustuta
@@ -158,23 +158,23 @@ export default function TrainersPage() {
 
       {/* Modal Form */}
       {isFormOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-3xl font-semibold text-gray-900">
                 {editingTrainer ? "Muuda Treenerit" : "Lisa Uus Treener"}
               </h2>
               <button
                 onClick={() => setIsFormOpen(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl"
+                className="text-gray-400 hover:text-gray-600 text-3xl transition-colors"
               >
                 ×
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-base font-medium text-gray-700 mb-2">
                   Nimi *
                 </label>
                 <input
@@ -182,12 +182,12 @@ export default function TrainersPage() {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-base font-medium text-gray-700 mb-2">
                   Email *
                 </label>
                 <input
@@ -195,12 +195,12 @@ export default function TrainersPage() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-base font-medium text-gray-700 mb-2">
                   Telefon *
                 </label>
                 <input
@@ -208,12 +208,12 @@ export default function TrainersPage() {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-base font-medium text-gray-700 mb-2">
                   Erialad *
                 </label>
                 <input
@@ -222,22 +222,22 @@ export default function TrainersPage() {
                   onChange={(e) => setFormData({ ...formData, specialties: e.target.value })}
                   required
                   placeholder="Nt: Dresuur, Takistussõit, Võistlusratsutamine"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                 />
-                <p className="text-xs text-gray-500 mt-1">Eralda komaga</p>
+                <p className="text-sm text-gray-500 mt-2">Eralda komaga</p>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4">
+              <div className="flex justify-end gap-4 pt-6">
                 <button
                   type="button"
                   onClick={() => setIsFormOpen(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  className="px-6 py-3 bg-gray-100 text-gray-700 rounded-2xl hover:bg-gray-200 transition-all duration-200 font-medium"
                 >
                   Tühista
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800"
+                  className="px-6 py-3 bg-gray-900 text-white rounded-2xl hover:bg-gray-800 transition-all duration-200 font-medium"
                 >
                   {editingTrainer ? "Uuenda" : "Lisa"}
                 </button>

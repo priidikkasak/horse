@@ -74,33 +74,33 @@ export default function HorsesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <div className="mb-6">
-          <Link href="/" className="text-gray-600 hover:text-gray-900">
+    <div className="min-h-screen bg-white">
+      <main className="max-w-7xl mx-auto py-12 px-6 sm:px-8 lg:px-12">
+        <div className="mb-8">
+          <Link href="/" className="text-gray-500 hover:text-gray-900 text-base font-medium transition-colors">
             ← Tagasi avalehele
           </Link>
         </div>
 
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Hobused</h1>
+        <div className="flex justify-between items-center mb-12">
+          <h1 className="text-4xl sm:text-5xl font-semibold text-gray-900 tracking-tight">Hobused</h1>
           <button
             onClick={handleAdd}
-            className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
+            className="bg-gray-900 text-white px-6 py-3 rounded-2xl hover:bg-gray-800 transition-all duration-200 font-medium"
           >
             Lisa Uus Hobune
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {horses.map((horse) => (
             <div
               key={horse.id}
-              className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+              className="bg-gray-50 rounded-3xl border border-gray-200/50 p-6 sm:p-8 hover:bg-gray-100 transition-all duration-200"
             >
-              <div className="flex justify-between items-start mb-4">
+              <div className="flex justify-between items-start mb-6">
                 <Link href={`/horses/${horse.id}`}>
-                  <h2 className="text-xl font-semibold text-gray-900 hover:text-gray-700">
+                  <h2 className="text-2xl font-semibold text-gray-900 hover:text-gray-700 transition-colors">
                     {horse.name}
                   </h2>
                 </Link>
@@ -142,23 +142,23 @@ export default function HorsesPage() {
                 )}
               </div>
 
-              <div className="flex gap-2 pt-3 border-t border-gray-200">
+              <div className="flex gap-3 pt-4 border-t border-gray-200">
                 <Link
                   href={`/horses/${horse.id}`}
-                  className="flex-1 text-center bg-gray-900 text-white px-3 py-2 rounded text-sm hover:bg-gray-800"
+                  className="flex-1 text-center bg-gray-900 text-white px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-800 transition-all duration-200"
                 >
                   Vaata
                 </Link>
                 <button
                   onClick={() => handleEdit(horse)}
-                  className="flex-1 text-gray-600 hover:text-gray-900 px-3 py-2 border border-gray-300 rounded text-sm"
+                  className="flex-1 text-gray-700 hover:text-gray-900 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-xl text-sm font-medium transition-all duration-200"
                   title="Muuda"
                 >
                   Muuda
                 </button>
                 <button
                   onClick={() => handleDelete(horse.id)}
-                  className="flex-1 text-red-600 hover:text-red-800 px-3 py-2 border border-red-300 rounded text-sm"
+                  className="flex-1 text-red-600 hover:text-red-700 px-4 py-2.5 bg-red-50 hover:bg-red-100 rounded-xl text-sm font-medium transition-all duration-200"
                   title="Kustuta"
                 >
                   Kustuta
@@ -177,24 +177,24 @@ export default function HorsesPage() {
 
       {/* Modal Form */}
       {isFormOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-3xl font-semibold text-gray-900">
                 {editingHorse ? "Muuda Hobust" : "Lisa Uus Hobune"}
               </h2>
               <button
                 onClick={() => setIsFormOpen(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl"
+                className="text-gray-400 hover:text-gray-600 text-3xl transition-colors"
               >
                 ×
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-base font-medium text-gray-700 mb-2">
                     Nimi *
                   </label>
                   <input
@@ -202,12 +202,12 @@ export default function HorsesPage() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-base font-medium text-gray-700 mb-2">
                     Tõug *
                   </label>
                   <input
@@ -215,12 +215,12 @@ export default function HorsesPage() {
                     value={formData.breed}
                     onChange={(e) => setFormData({ ...formData, breed: e.target.value })}
                     required
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-base font-medium text-gray-700 mb-2">
                     Vanus *
                   </label>
                   <input
@@ -229,12 +229,12 @@ export default function HorsesPage() {
                     onChange={(e) => setFormData({ ...formData, age: Number(e.target.value) })}
                     required
                     min="0"
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-base font-medium text-gray-700 mb-2">
                     Värv *
                   </label>
                   <input
@@ -242,12 +242,12 @@ export default function HorsesPage() {
                     value={formData.color}
                     onChange={(e) => setFormData({ ...formData, color: e.target.value })}
                     required
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-base font-medium text-gray-700 mb-2">
                     Omanik *
                   </label>
                   <input
@@ -255,31 +255,31 @@ export default function HorsesPage() {
                     value={formData.owner}
                     onChange={(e) => setFormData({ ...formData, owner: e.target.value })}
                     required
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-base font-medium text-gray-700 mb-2">
                     Boksi Number
                   </label>
                   <input
                     type="text"
                     value={formData.stallNumber}
                     onChange={(e) => setFormData({ ...formData, stallNumber: e.target.value })}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-base font-medium text-gray-700 mb-2">
                     Staatus *
                   </label>
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value as "active" | "injured" | "retired" })}
                     required
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   >
                     <option value="active">Aktiivne</option>
                     <option value="injured">Vigastatud</option>
@@ -288,17 +288,17 @@ export default function HorsesPage() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4">
+              <div className="flex justify-end gap-4 pt-6">
                 <button
                   type="button"
                   onClick={() => setIsFormOpen(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  className="px-6 py-3 bg-gray-100 text-gray-700 rounded-2xl hover:bg-gray-200 transition-all duration-200 font-medium"
                 >
                   Tühista
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800"
+                  className="px-6 py-3 bg-gray-900 text-white rounded-2xl hover:bg-gray-800 transition-all duration-200 font-medium"
                 >
                   {editingHorse ? "Uuenda" : "Lisa"}
                 </button>

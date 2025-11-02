@@ -84,19 +84,19 @@ export default function SchedulePage() {
   const lessonsByDay = getLessonsByDayOfWeek();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <div className="mb-6">
-          <Link href="/" className="text-gray-600 hover:text-gray-900">
+    <div className="min-h-screen bg-white">
+      <main className="max-w-7xl mx-auto py-12 px-6 sm:px-8 lg:px-12">
+        <div className="mb-8">
+          <Link href="/" className="text-gray-500 hover:text-gray-900 text-base font-medium transition-colors">
             ← Tagasi avalehele
           </Link>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Treeningud</h1>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12">
+          <h1 className="text-4xl sm:text-5xl font-semibold text-gray-900 tracking-tight">Treeningud</h1>
           <button
             onClick={handleAddTraining}
-            className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors whitespace-nowrap"
+            className="bg-gray-900 text-white px-6 py-3 rounded-2xl hover:bg-gray-800 transition-all duration-200 whitespace-nowrap font-medium"
           >
             Lisa Treening
           </button>
@@ -113,23 +113,23 @@ export default function SchedulePage() {
         />
 
         {/* View Toggle */}
-        <div className="mb-6 flex gap-2">
+        <div className="mb-8 flex gap-3">
           <button
             onClick={() => setView("weekly")}
-            className={`px-4 py-2 rounded-md transition-colors ${
+            className={`px-6 py-3 rounded-2xl transition-all duration-200 font-medium ${
               view === "weekly"
                 ? "bg-gray-900 text-white"
-                : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
             Nädala Vaade
           </button>
           <button
             onClick={() => setView("daily")}
-            className={`px-4 py-2 rounded-md transition-colors ${
+            className={`px-6 py-3 rounded-2xl transition-all duration-200 font-medium ${
               view === "daily"
                 ? "bg-gray-900 text-white"
-                : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
             Päeva Vaade
@@ -138,17 +138,17 @@ export default function SchedulePage() {
 
         {/* Weekly View */}
         {view === "weekly" && (
-          <div className="space-y-4">
+          <div className="space-y-6">
             {daysOfWeek.map((day, index) => (
-              <div key={day} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-                <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">{day}</h2>
+              <div key={day} className="bg-gray-50 rounded-3xl border border-gray-200/50 p-6 sm:p-8">
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-6">{day}</h2>
 
                 {lessonsByDay[index] && lessonsByDay[index].length > 0 ? (
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {lessonsByDay[index].map((lesson) => (
                       <div
                         key={lesson.id}
-                        className="border-l-4 border-blue-500 bg-gray-50 p-3 sm:p-4 rounded-r-lg"
+                        className="border-l-4 border-blue-500 bg-white p-4 sm:p-5 rounded-2xl"
                       >
                         <div className="flex flex-col gap-3">
                           <div className="flex items-start justify-between gap-2">
@@ -192,17 +192,17 @@ export default function SchedulePage() {
                               </span>
                             </div>
                           </div>
-                          <div className="flex gap-2 pt-2 border-t border-gray-200">
+                          <div className="flex gap-3 pt-3 border-t border-gray-100">
                             <button
                               onClick={() => handleEditTraining(lesson)}
-                              className="flex-1 text-gray-600 hover:text-gray-900 px-3 py-1.5 text-sm border border-gray-300 rounded"
+                              className="flex-1 text-gray-700 hover:text-gray-900 px-4 py-2.5 text-sm font-medium bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200"
                               title="Muuda treeningut"
                             >
                               Muuda
                             </button>
                             <button
                               onClick={() => handleDeleteTraining(lesson.id)}
-                              className="flex-1 text-red-600 hover:text-red-800 px-3 py-1.5 text-sm border border-red-300 rounded"
+                              className="flex-1 text-red-600 hover:text-red-700 px-4 py-2.5 text-sm font-medium bg-red-50 hover:bg-red-100 rounded-xl transition-all duration-200"
                               title="Kustuta treening"
                             >
                               Kustuta
@@ -213,7 +213,7 @@ export default function SchedulePage() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-500 text-sm">Treeninguid pole planeeritud</p>
+                  <p className="text-gray-500 text-base">Treeninguid pole planeeritud</p>
                 )}
               </div>
             ))}
@@ -223,8 +223,8 @@ export default function SchedulePage() {
         {/* Daily View */}
         {view === "daily" && (
           <>
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-4 sm:mb-6">
-              <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="bg-gray-50 rounded-3xl border border-gray-200/50 p-6 sm:p-8 mb-6">
+              <label htmlFor="date" className="block text-base font-medium text-gray-700 mb-3">
                 Vali Kuupäev
               </label>
               <input
@@ -232,21 +232,21 @@ export default function SchedulePage() {
                 id="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full sm:w-auto border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                className="w-full sm:w-auto border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
               />
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">
+            <div className="bg-gray-50 rounded-3xl border border-gray-200/50 p-6 sm:p-8">
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-6">
                 Treeningud {new Date(selectedDate).toLocaleDateString()}
               </h2>
 
               {filteredLessons.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {filteredLessons.map((lesson) => (
                     <div
                       key={lesson.id}
-                      className="border-l-4 border-blue-500 bg-gray-50 p-3 sm:p-4 rounded-r-lg"
+                      className="border-l-4 border-blue-500 bg-white p-4 sm:p-5 rounded-2xl"
                     >
                       <div className="flex flex-col gap-3">
                         <div className="flex items-start justify-between gap-2">
@@ -290,17 +290,17 @@ export default function SchedulePage() {
                             </span>
                           </div>
                         </div>
-                        <div className="flex gap-2 pt-2 border-t border-gray-200">
+                        <div className="flex gap-3 pt-3 border-t border-gray-100">
                           <button
                             onClick={() => handleEditTraining(lesson)}
-                            className="flex-1 text-gray-600 hover:text-gray-900 px-3 py-1.5 text-sm border border-gray-300 rounded"
+                            className="flex-1 text-gray-700 hover:text-gray-900 px-4 py-2.5 text-sm font-medium bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200"
                             title="Muuda treeningut"
                           >
                             Muuda
                           </button>
                           <button
                             onClick={() => handleDeleteTraining(lesson.id)}
-                            className="flex-1 text-red-600 hover:text-red-800 px-3 py-1.5 text-sm border border-red-300 rounded"
+                            className="flex-1 text-red-600 hover:text-red-700 px-4 py-2.5 text-sm font-medium bg-red-50 hover:bg-red-100 rounded-xl transition-all duration-200"
                             title="Kustuta treening"
                           >
                             Kustuta
@@ -311,8 +311,8 @@ export default function SchedulePage() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-8">
-                  <p className="text-gray-500">Sel kuupäeval pole treeninguid planeeritud</p>
+                <div className="text-center py-12">
+                  <p className="text-gray-500 text-base">Sel kuupäeval pole treeninguid planeeritud</p>
                 </div>
               )}
             </div>
