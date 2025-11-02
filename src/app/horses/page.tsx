@@ -1,12 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { mockHorses } from "@/lib/data";
 import { Horse } from "@/types";
 
 export default function HorsesPage() {
-  const [horses, setHorses] = useState<Horse[]>(mockHorses);
+  const [horses, setHorses] = useState<Horse[]>([]);
+
+  // Load horses from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("horses");
+    if (saved) {
+      setHorses(JSON.parse(saved));
+    } else {
+      setHorses(mockHorses);
+    }
+  }, []);
+
+  // Save horses to localStorage whenever they change
+  useEffect(() => {
+    if (horses.length > 0) {
+      localStorage.setItem("horses", JSON.stringify(horses));
+    }
+  }, [horses]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingHorse, setEditingHorse] = useState<Horse | null>(null);
   const [formData, setFormData] = useState({

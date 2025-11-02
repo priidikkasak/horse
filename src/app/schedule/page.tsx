@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import TrainingForm from "@/components/TrainingForm";
 import { mockLessons, mockTrainers, mockHorses } from "@/lib/data";
@@ -9,7 +9,24 @@ import { Lesson } from "@/types";
 export default function SchedulePage() {
   const [view, setView] = useState<"weekly" | "daily">("weekly");
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
-  const [trainings, setTrainings] = useState<Lesson[]>(mockLessons);
+  const [trainings, setTrainings] = useState<Lesson[]>([]);
+
+  // Load trainings from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("trainings");
+    if (saved) {
+      setTrainings(JSON.parse(saved));
+    } else {
+      setTrainings(mockLessons);
+    }
+  }, []);
+
+  // Save trainings to localStorage whenever they change
+  useEffect(() => {
+    if (trainings.length > 0) {
+      localStorage.setItem("trainings", JSON.stringify(trainings));
+    }
+  }, [trainings]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingTraining, setEditingTraining] = useState<Lesson | null>(null);
 

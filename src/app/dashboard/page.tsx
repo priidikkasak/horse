@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 interface Stall {
@@ -20,7 +20,24 @@ const initialStalls: Stall[] = [
 ];
 
 export default function DashboardPage() {
-  const [stalls, setStalls] = useState<Stall[]>(initialStalls);
+  const [stalls, setStalls] = useState<Stall[]>([]);
+
+  // Load stalls from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("stalls");
+    if (saved) {
+      setStalls(JSON.parse(saved));
+    } else {
+      setStalls(initialStalls);
+    }
+  }, []);
+
+  // Save stalls to localStorage whenever they change
+  useEffect(() => {
+    if (stalls.length > 0) {
+      localStorage.setItem("stalls", JSON.stringify(stalls));
+    }
+  }, [stalls]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingStall, setEditingStall] = useState<Stall | null>(null);
   const [formData, setFormData] = useState({ stallNumber: "", horseName: "", price: 350, comments: "" });

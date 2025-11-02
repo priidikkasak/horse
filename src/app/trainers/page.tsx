@@ -1,12 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { mockTrainers } from "@/lib/data";
 import { Trainer } from "@/types";
 
 export default function TrainersPage() {
-  const [trainers, setTrainers] = useState<Trainer[]>(mockTrainers);
+  const [trainers, setTrainers] = useState<Trainer[]>([]);
+
+  // Load trainers from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("trainers");
+    if (saved) {
+      setTrainers(JSON.parse(saved));
+    } else {
+      setTrainers(mockTrainers);
+    }
+  }, []);
+
+  // Save trainers to localStorage whenever they change
+  useEffect(() => {
+    if (trainers.length > 0) {
+      localStorage.setItem("trainers", JSON.stringify(trainers));
+    }
+  }, [trainers]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingTrainer, setEditingTrainer] = useState<Trainer | null>(null);
   const [formData, setFormData] = useState({
