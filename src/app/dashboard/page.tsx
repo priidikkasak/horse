@@ -105,7 +105,7 @@ export default function DashboardPage() {
         {/* Stall Occupancy */}
         <div className="bg-gray-50 rounded-3xl border border-gray-200/50 p-8">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-semibold">Bokside Kasutus</h2>
+            <h2 className="text-2xl font-semibold text-gray-900">Bokside Kasutus</h2>
             <button
               onClick={handleAdd}
               className="bg-gray-900 text-white px-6 py-3 rounded-2xl hover:bg-gray-800 transition-all duration-200 text-sm font-medium"
