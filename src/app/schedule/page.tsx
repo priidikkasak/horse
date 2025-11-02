@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Navigation from "@/components/Navigation";
+import Link from "next/link";
 import TrainingForm from "@/components/TrainingForm";
 import { mockLessons, mockTrainers, mockHorses } from "@/lib/data";
 import { Lesson } from "@/types";
@@ -13,7 +13,7 @@ export default function SchedulePage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingTraining, setEditingTraining] = useState<Lesson | null>(null);
 
-  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const daysOfWeek = ["Pühapäev", "Esmaspäev", "Teisipäev", "Kolmapäev", "Neljapäev", "Reede", "Laupäev"];
 
   // Group lessons by day of week
   const getLessonsByDayOfWeek = () => {
@@ -76,7 +76,7 @@ export default function SchedulePage() {
   };
 
   const handleDeleteTraining = (id: string) => {
-    if (confirm("Are you sure you want to delete this training?")) {
+    if (confirm("Kas oled kindel, et soovid selle treeningu kustutada?")) {
       setTrainings(trainings.filter((t) => t.id !== id));
     }
   };
@@ -85,16 +85,20 @@ export default function SchedulePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
-
       <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div className="mb-6">
+          <Link href="/" className="text-gray-600 hover:text-gray-900">
+            ← Tagasi avalehele
+          </Link>
+        </div>
+
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Training Schedules</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Treeninggraafik</h1>
           <button
             onClick={handleAddTraining}
             className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
           >
-            Book New Training
+            Lisa Treening
           </button>
         </div>
 
@@ -118,7 +122,7 @@ export default function SchedulePage() {
                 : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
             }`}
           >
-            Weekly View
+            Nädala Vaade
           </button>
           <button
             onClick={() => setView("daily")}
@@ -128,7 +132,7 @@ export default function SchedulePage() {
                 : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
             }`}
           >
-            Daily View
+            Päeva Vaade
           </button>
         </div>
 
@@ -158,19 +162,19 @@ export default function SchedulePage() {
                             </div>
                             <div className="flex items-center gap-4">
                               <div>
-                                <span className="text-sm text-gray-500">Trainer: </span>
+                                <span className="text-sm text-gray-500">Treener: </span>
                                 <span className="text-sm font-medium text-gray-900">
                                   {getTrainerName(lesson.trainerId)}
                                 </span>
                               </div>
                               <div>
-                                <span className="text-sm text-gray-500">Horse: </span>
+                                <span className="text-sm text-gray-500">Hobune: </span>
                                 <span className="text-sm font-medium text-gray-900">
                                   {getHorseName(lesson.horseId)}
                                 </span>
                               </div>
                               <div>
-                                <span className="text-sm text-gray-500">Client: </span>
+                                <span className="text-sm text-gray-500">Klient: </span>
                                 <span className="text-sm font-medium text-gray-900">
                                   {lesson.clientName}
                                 </span>
@@ -192,16 +196,16 @@ export default function SchedulePage() {
                             <button
                               onClick={() => handleEditTraining(lesson)}
                               className="text-gray-600 hover:text-gray-900 px-2 py-1 text-sm"
-                              title="Edit training"
+                              title="Muuda treeningut"
                             >
-                              Edit
+                              Muuda
                             </button>
                             <button
                               onClick={() => handleDeleteTraining(lesson.id)}
                               className="text-red-600 hover:text-red-800 px-2 py-1 text-sm"
-                              title="Delete training"
+                              title="Kustuta treening"
                             >
-                              Delete
+                              Kustuta
                             </button>
                           </div>
                         </div>
@@ -209,7 +213,7 @@ export default function SchedulePage() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-500 text-sm">No trainings scheduled</p>
+                  <p className="text-gray-500 text-sm">Treeninguid pole planeeritud</p>
                 )}
               </div>
             ))}
@@ -221,7 +225,7 @@ export default function SchedulePage() {
           <>
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
               <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-2">
-                Select Date
+                Vali Kuupäev
               </label>
               <input
                 type="date"
@@ -234,7 +238,7 @@ export default function SchedulePage() {
 
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h2 className="text-xl font-semibold mb-4">
-                Trainings for {new Date(selectedDate).toLocaleDateString()}
+                Treeningud {new Date(selectedDate).toLocaleDateString()}
               </h2>
 
               {filteredLessons.length > 0 ? (
@@ -256,19 +260,19 @@ export default function SchedulePage() {
                           </div>
                           <div className="flex items-center gap-4 flex-wrap">
                             <div>
-                              <span className="text-sm text-gray-500">Trainer: </span>
+                              <span className="text-sm text-gray-500">Treener: </span>
                               <span className="text-sm font-medium text-gray-900">
                                 {getTrainerName(lesson.trainerId)}
                               </span>
                             </div>
                             <div>
-                              <span className="text-sm text-gray-500">Horse: </span>
+                              <span className="text-sm text-gray-500">Hobune: </span>
                               <span className="text-sm font-medium text-gray-900">
                                 {getHorseName(lesson.horseId)}
                               </span>
                             </div>
                             <div>
-                              <span className="text-sm text-gray-500">Client: </span>
+                              <span className="text-sm text-gray-500">Klient: </span>
                               <span className="text-sm font-medium text-gray-900">
                                 {lesson.clientName}
                               </span>
@@ -290,16 +294,16 @@ export default function SchedulePage() {
                           <button
                             onClick={() => handleEditTraining(lesson)}
                             className="text-gray-600 hover:text-gray-900 px-2 py-1 text-sm"
-                            title="Edit training"
+                            title="Muuda treeningut"
                           >
-                            Edit
+                            Muuda
                           </button>
                           <button
                             onClick={() => handleDeleteTraining(lesson.id)}
                             className="text-red-600 hover:text-red-800 px-2 py-1 text-sm"
-                            title="Delete training"
+                            title="Kustuta treening"
                           >
-                            Delete
+                            Kustuta
                           </button>
                         </div>
                       </div>
@@ -308,7 +312,7 @@ export default function SchedulePage() {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-gray-500">No trainings scheduled for this date</p>
+                  <p className="text-gray-500">Sel kuupäeval pole treeninguid planeeritud</p>
                 </div>
               )}
             </div>

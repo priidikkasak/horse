@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Navigation from "@/components/Navigation";
 import {
   getHorseById,
   getMedicalRecordsByHorseId,
@@ -21,9 +20,11 @@ export default async function HorseDetailPage({
   if (!horse) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
         <main className="max-w-7xl mx-auto py-8 px-4">
-          <p className="text-center text-gray-500">Horse not found</p>
+          <Link href="/horses" className="text-gray-600 hover:text-gray-900 mb-4 inline-block">
+            ← Tagasi
+          </Link>
+          <p className="text-center text-gray-500">Hobust ei leitud</p>
         </main>
       </div>
     );
@@ -31,12 +32,10 @@ export default async function HorseDetailPage({
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
-
       <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
           <Link href="/horses" className="text-gray-600 hover:text-gray-900">
-            ← Back to Horses
+            ← Tagasi
           </Link>
         </div>
 
@@ -62,20 +61,20 @@ export default async function HorseDetailPage({
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
-              <p className="text-sm text-gray-500">Age</p>
-              <p className="text-lg font-medium">{horse.age} years</p>
+              <p className="text-sm text-gray-500">Vanus</p>
+              <p className="text-lg font-medium">{horse.age} aastat</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Color</p>
+              <p className="text-sm text-gray-500">Värv</p>
               <p className="text-lg font-medium">{horse.color}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Owner</p>
+              <p className="text-sm text-gray-500">Omanik</p>
               <p className="text-lg font-medium">{horse.owner}</p>
             </div>
             {horse.stallNumber && (
               <div>
-                <p className="text-sm text-gray-500">Stall Number</p>
+                <p className="text-sm text-gray-500">Boksi Number</p>
                 <p className="text-lg font-medium">{horse.stallNumber}</p>
               </div>
             )}
@@ -86,8 +85,8 @@ export default async function HorseDetailPage({
           {/* Medical Records */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Medical Records</h2>
-              <button className="text-sm text-gray-600 hover:text-gray-900">+ Add</button>
+              <h2 className="text-xl font-semibold">Tervislikud Andmed</h2>
+              <button className="text-sm text-gray-600 hover:text-gray-900">+ Lisa</button>
             </div>
             {medicalRecords.length > 0 ? (
               <div className="space-y-4">
@@ -104,15 +103,15 @@ export default async function HorseDetailPage({
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 text-sm">No medical records</p>
+              <p className="text-gray-500 text-sm">Tervislikke andmeid pole</p>
             )}
           </div>
 
           {/* Vaccinations */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Vaccinations</h2>
-              <button className="text-sm text-gray-600 hover:text-gray-900">+ Add</button>
+              <h2 className="text-xl font-semibold">Vaktsineerimised</h2>
+              <button className="text-sm text-gray-600 hover:text-gray-900">+ Lisa</button>
             </div>
             {vaccinations.length > 0 ? (
               <div className="space-y-4">
@@ -120,25 +119,25 @@ export default async function HorseDetailPage({
                   <div key={vac.id} className="border-l-4 border-green-500 pl-4 py-2">
                     <p className="font-medium">{vac.vaccineName}</p>
                     <p className="text-sm text-gray-600">
-                      Administered: {new Date(vac.dateAdministered).toLocaleDateString()}
+                      Manustatud: {new Date(vac.dateAdministered).toLocaleDateString()}
                     </p>
                     <p className="text-sm text-gray-600">
-                      Next Due: {new Date(vac.nextDueDate).toLocaleDateString()}
+                      Järgmine: {new Date(vac.nextDueDate).toLocaleDateString()}
                     </p>
                     <p className="text-sm text-gray-500">Dr. {vac.veterinarian}</p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 text-sm">No vaccination records</p>
+              <p className="text-gray-500 text-sm">Vaktsineerimisandmeid pole</p>
             )}
           </div>
 
           {/* Training Notes */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 lg:col-span-2">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Training Notes</h2>
-              <button className="text-sm text-gray-600 hover:text-gray-900">+ Add</button>
+              <h2 className="text-xl font-semibold">Treeningmärkmed</h2>
+              <button className="text-sm text-gray-600 hover:text-gray-900">+ Lisa</button>
             </div>
             {trainingNotes.length > 0 ? (
               <div className="space-y-4">
@@ -151,7 +150,7 @@ export default async function HorseDetailPage({
                         </p>
                         <p className="font-medium">{note.activity}</p>
                         <p className="text-sm text-gray-600">{note.notes}</p>
-                        <p className="text-sm text-gray-500 mt-1">{note.duration} minutes</p>
+                        <p className="text-sm text-gray-500 mt-1">{note.duration} minutit</p>
                       </div>
                       <span
                         className={`px-2 py-1 text-xs rounded-full ${
@@ -171,7 +170,7 @@ export default async function HorseDetailPage({
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 text-sm">No training notes</p>
+              <p className="text-gray-500 text-sm">Treeningmäkmeid pole</p>
             )}
           </div>
         </div>

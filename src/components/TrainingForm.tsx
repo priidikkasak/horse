@@ -104,7 +104,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-900">
-              {training ? "Edit Training" : "Add New Training"}
+              {training ? "Muuda Treeningut" : "Lisa Uus Treening"}
             </h2>
             <button
               onClick={onClose}
@@ -118,7 +118,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
             {/* Type field first */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Type *
+                Tüüp *
               </label>
               <select
                 name="type"
@@ -127,13 +127,13 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                 required
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
               >
-                <option value="private">Private</option>
-                <option value="group">Group</option>
-                <option value="training">Training</option>
+                <option value="private">Privaatne</option>
+                <option value="group">Grupp</option>
+                <option value="training">Treening</option>
               </select>
               {isGroupTraining && (
                 <p className="text-sm text-gray-500 mt-1">
-                  Group sessions don&apos;t require horse, client, or price information
+                  Grupitreeningud ei vaja hobuse, kliendi ega hinna infot
                 </p>
               )}
             </div>
@@ -141,7 +141,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Trainer *
+                  Treener *
                 </label>
                 <select
                   name="trainerId"
@@ -150,7 +150,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                   required
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                 >
-                  <option value="">Select a trainer</option>
+                  <option value="">Vali treener</option>
                   {mockTrainers.map((trainer) => (
                     <option key={trainer.id} value={trainer.id}>
                       {trainer.name}
@@ -162,7 +162,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
               {!isGroupTraining && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Horse *
+                    Hobune *
                   </label>
                   <select
                     name="horseId"
@@ -171,7 +171,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                     required
                     className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                   >
-                    <option value="">Select a horse</option>
+                    <option value="">Vali hobune</option>
                     {mockHorses.map((horse) => (
                       <option key={horse.id} value={horse.id}>
                         {horse.name}
@@ -184,7 +184,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
               {!isGroupTraining && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Client Name *
+                    Kliendi Nimi *
                   </label>
                   <input
                     type="text"
@@ -200,7 +200,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
               {!isGroupTraining && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Client Email *
+                    Kliendi Email *
                   </label>
                   <input
                     type="email"
@@ -215,7 +215,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Date *
+                  Kuupäev *
                 </label>
                 <input
                   type="date"
@@ -229,7 +229,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Duration (minutes) *
+                  Kestus (minutit) *
                 </label>
                 <input
                   type="number"
@@ -245,7 +245,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Start Time *
+                  Algusaeg *
                 </label>
                 <input
                   type="time"
@@ -259,7 +259,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  End Time *
+                  Lõpuaeg *
                 </label>
                 <input
                   type="time"
@@ -273,7 +273,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Status *
+                  Staatus *
                 </label>
                 <select
                   name="status"
@@ -282,16 +282,16 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                   required
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                 >
-                  <option value="scheduled">Scheduled</option>
-                  <option value="completed">Completed</option>
-                  <option value="cancelled">Cancelled</option>
+                  <option value="scheduled">Planeeritud</option>
+                  <option value="completed">Lõpetatud</option>
+                  <option value="cancelled">Tühistatud</option>
                 </select>
               </div>
 
               {!isGroupTraining && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Price ($) *
+                    Hind (€) *
                   </label>
                   <input
                     type="number"
@@ -309,7 +309,7 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Notes
+                Märkmed
               </label>
               <textarea
                 name="notes"
@@ -326,13 +326,13 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                 onClick={onClose}
                 className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
               >
-                Cancel
+                Tühista
               </button>
               <button
                 type="submit"
                 className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800"
               >
-                {training ? "Update Training" : "Add Training"}
+                {training ? "Uuenda Treeningut" : "Lisa Treening"}
               </button>
             </div>
           </form>
