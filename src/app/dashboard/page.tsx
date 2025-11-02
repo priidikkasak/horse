@@ -118,31 +118,31 @@ export default function DashboardPage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">
+                <tr className="border-b-2 border-gray-300">
+                  <th className="text-left py-4 px-4 text-sm font-semibold text-gray-900">
                     Boksi Number
                   </th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">
+                  <th className="text-left py-4 px-4 text-sm font-semibold text-gray-900">
                     Hobuse Nimi
                   </th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">
+                  <th className="text-left py-4 px-4 text-sm font-semibold text-gray-900">
                     Hind (€/kuu)
                   </th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">
+                  <th className="text-left py-4 px-4 text-sm font-semibold text-gray-900">
                     Kommentaarid
                   </th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">
+                  <th className="text-left py-4 px-4 text-sm font-semibold text-gray-900">
                     Tegevused
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {stalls.map((stall) => (
-                  <tr key={stall.id} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-3 px-4 font-medium">{stall.stallNumber}</td>
-                    <td className="py-3 px-4">{stall.horseName || "-"}</td>
-                    <td className="py-3 px-4">€{stall.price}</td>
-                    <td className="py-3 px-4 text-sm text-gray-600">{stall.comments || "-"}</td>
+                  <tr key={stall.id} className="border-b border-gray-200 hover:bg-white">
+                    <td className="py-4 px-4 font-semibold text-gray-900">{stall.stallNumber}</td>
+                    <td className="py-4 px-4 font-medium text-gray-900">{stall.horseName || "-"}</td>
+                    <td className="py-4 px-4 font-medium text-gray-900">€{stall.price}</td>
+                    <td className="py-4 px-4 text-sm text-gray-700">{stall.comments || "-"}</td>
                     <td className="py-3 px-4">
                       <div className="flex gap-3">
                         <button
