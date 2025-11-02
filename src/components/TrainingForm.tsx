@@ -64,13 +64,27 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({
+
+    // For group trainings, set default values for fields that aren't needed
+    const dataToSave = formData.type === "group" ? {
+      ...formData,
+      horseId: formData.horseId || "none",
+      clientName: formData.clientName || "Group Session",
+      clientEmail: formData.clientEmail || "group@stable.com",
+      price: 0,
+      id: training?.id || Date.now().toString(),
+      date: new Date(formData.date),
+    } : {
       ...formData,
       id: training?.id || Date.now().toString(),
       date: new Date(formData.date),
-    });
+    };
+
+    onSave(dataToSave);
     onClose();
   };
+
+  const isGroupTraining = formData.type === "group";
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -101,6 +115,29 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Type field first */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Type *
+              </label>
+              <select
+                name="type"
+                value={formData.type}
+                onChange={handleChange}
+                required
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+              >
+                <option value="private">Private</option>
+                <option value="group">Group</option>
+                <option value="training">Training</option>
+              </select>
+              {isGroupTraining && (
+                <p className="text-sm text-gray-500 mt-1">
+                  Group sessions don&apos;t require horse, client, or price information
+                </p>
+              )}
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -122,53 +159,59 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Horse *
-                </label>
-                <select
-                  name="horseId"
-                  value={formData.horseId}
-                  onChange={handleChange}
-                  required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                >
-                  <option value="">Select a horse</option>
-                  {mockHorses.map((horse) => (
-                    <option key={horse.id} value={horse.id}>
-                      {horse.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {!isGroupTraining && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Horse *
+                  </label>
+                  <select
+                    name="horseId"
+                    value={formData.horseId}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  >
+                    <option value="">Select a horse</option>
+                    {mockHorses.map((horse) => (
+                      <option key={horse.id} value={horse.id}>
+                        {horse.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Client Name *
-                </label>
-                <input
-                  type="text"
-                  name="clientName"
-                  value={formData.clientName}
-                  onChange={handleChange}
-                  required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                />
-              </div>
+              {!isGroupTraining && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Client Name *
+                  </label>
+                  <input
+                    type="text"
+                    name="clientName"
+                    value={formData.clientName}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  />
+                </div>
+              )}
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Client Email *
-                </label>
-                <input
-                  type="email"
-                  name="clientEmail"
-                  value={formData.clientEmail}
-                  onChange={handleChange}
-                  required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                />
-              </div>
+              {!isGroupTraining && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Client Email *
+                  </label>
+                  <input
+                    type="email"
+                    name="clientEmail"
+                    value={formData.clientEmail}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  />
+                </div>
+              )}
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -230,23 +273,6 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Type *
-                </label>
-                <select
-                  name="type"
-                  value={formData.type}
-                  onChange={handleChange}
-                  required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                >
-                  <option value="private">Private</option>
-                  <option value="group">Group</option>
-                  <option value="training">Training</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Status *
                 </label>
                 <select
@@ -262,21 +288,23 @@ export default function TrainingForm({ isOpen, onClose, onSave, training }: Trai
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Price ($) *
-                </label>
-                <input
-                  type="number"
-                  name="price"
-                  value={formData.price}
-                  onChange={handleChange}
-                  required
-                  min="0"
-                  step="5"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                />
-              </div>
+              {!isGroupTraining && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Price ($) *
+                  </label>
+                  <input
+                    type="number"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    required
+                    min="0"
+                    step="5"
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                  />
+                </div>
+              )}
             </div>
 
             <div>
