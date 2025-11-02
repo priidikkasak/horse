@@ -32,6 +32,11 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    setIsAuthenticated(false);
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
@@ -82,5 +87,16 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
     );
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {/* Logout Button */}
+      <button
+        onClick={handleLogout}
+        className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50 bg-gray-900 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-2xl hover:bg-gray-800 transition-all duration-200 font-medium text-sm shadow-lg"
+      >
+        Logi välja
+      </button>
+      {children}
+    </>
+  );
 }
