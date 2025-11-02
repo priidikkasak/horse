@@ -135,15 +135,15 @@ export default function TrainersPage() {
               </div>
 
               <div className="space-y-2 text-sm mb-4">
-                <div className="flex items-center text-gray-600">
+                <div className="flex items-center text-gray-900">
                   <span className="font-medium mr-2">Email:</span>
-                  <a href={`mailto:${trainer.email}`} className="hover:text-gray-900">
+                  <a href={`mailto:${trainer.email}`} className="hover:text-gray-700">
                     {trainer.email}
                   </a>
                 </div>
-                <div className="flex items-center text-gray-600">
+                <div className="flex items-center text-gray-900">
                   <span className="font-medium mr-2">Telefon:</span>
-                  <a href={`tel:${trainer.phone}`} className="hover:text-gray-900">
+                  <a href={`tel:${trainer.phone}`} className="hover:text-gray-700">
                     {trainer.phone}
                   </a>
                 </div>

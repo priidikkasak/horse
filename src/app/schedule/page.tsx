@@ -173,7 +173,7 @@ export default function SchedulePage() {
                               <span className="text-base sm:text-lg font-semibold text-gray-900">
                                 {lesson.startTime} - {lesson.endTime}
                               </span>
-                              <span className="text-xs sm:text-sm text-gray-600">
+                              <span className="text-xs sm:text-sm text-gray-700">
                                 ({lesson.duration} min)
                               </span>
                               <span
@@ -191,19 +191,19 @@ export default function SchedulePage() {
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
                             <div>
-                              <span className="text-gray-500">Treener: </span>
+                              <span className="text-gray-700">Treener: </span>
                               <span className="font-medium text-gray-900">
                                 {getTrainerName(lesson.trainerId)}
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-500">Hobune: </span>
+                              <span className="text-gray-700">Hobune: </span>
                               <span className="font-medium text-gray-900">
                                 {getHorseName(lesson.horseId)}
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-500">Klient: </span>
+                              <span className="text-gray-700">Klient: </span>
                               <span className="font-medium text-gray-900">
                                 {lesson.clientName}
                               </span>
@@ -271,7 +271,7 @@ export default function SchedulePage() {
                             <span className="text-base sm:text-lg font-semibold text-gray-900">
                               {lesson.startTime} - {lesson.endTime}
                             </span>
-                            <span className="text-xs sm:text-sm text-gray-600">
+                            <span className="text-xs sm:text-sm text-gray-700">
                               ({lesson.duration} min)
                             </span>
                             <span
@@ -289,19 +289,19 @@ export default function SchedulePage() {
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
                           <div>
-                            <span className="text-gray-500">Treener: </span>
+                            <span className="text-gray-700">Treener: </span>
                             <span className="font-medium text-gray-900">
                               {getTrainerName(lesson.trainerId)}
                             </span>
                           </div>
                           <div>
-                            <span className="text-gray-500">Hobune: </span>
+                            <span className="text-gray-700">Hobune: </span>
                             <span className="font-medium text-gray-900">
                               {getHorseName(lesson.horseId)}
                             </span>
                           </div>
                           <div>
-                            <span className="text-gray-500">Klient: </span>
+                            <span className="text-gray-700">Klient: </span>
                             <span className="font-medium text-gray-900">
                               {lesson.clientName}
                             </span>

@@ -134,7 +134,7 @@ export default function HorsesPage() {
                 </span>
               </div>
 
-              <div className="space-y-2 text-sm text-gray-600 mb-4">
+              <div className="space-y-2 text-sm text-gray-900 mb-4">
                 <div className="flex justify-between">
                   <span className="font-medium">Tõug:</span>
                   <span>{horse.breed}</span>

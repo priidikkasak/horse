@@ -32,7 +32,7 @@ export default function Home() {
               </p>
             </div>
             <div className="mt-auto">
-              <span className="text-blue-500 font-medium group-hover:text-blue-600">Vaata →</span>
+              <span className="text-gray-900 font-medium group-hover:text-gray-700">Vaata →</span>
             </div>
           </Link>
 
@@ -51,7 +51,7 @@ export default function Home() {
               </p>
             </div>
             <div className="mt-auto">
-              <span className="text-green-500 font-medium group-hover:text-green-600">Vaata →</span>
+              <span className="text-gray-900 font-medium group-hover:text-gray-700">Vaata →</span>
             </div>
           </Link>
 
@@ -70,7 +70,7 @@ export default function Home() {
               </p>
             </div>
             <div className="mt-auto">
-              <span className="text-purple-500 font-medium group-hover:text-purple-600">Vaata →</span>
+              <span className="text-gray-900 font-medium group-hover:text-gray-700">Vaata →</span>
             </div>
           </Link>
 
@@ -89,7 +89,7 @@ export default function Home() {
               </p>
             </div>
             <div className="mt-auto">
-              <span className="text-orange-500 font-medium group-hover:text-orange-600">Vaata →</span>
+              <span className="text-gray-900 font-medium group-hover:text-gray-700">Vaata →</span>
             </div>
           </Link>
         </div>
