@@ -237,7 +237,7 @@ export default function SchedulePage() {
             </div>
 
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-semibold mb-4">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">
                 Treeningud {new Date(selectedDate).toLocaleDateString()}
               </h2>
 
