@@ -335,6 +335,25 @@ export default function HorsesPage() {
                   <span className="font-medium">Omanik:</span>
                   <span>{horse.owner}</span>
                 </div>
+                {/* Custom Fields */}
+                {customFields.map((field) => {
+                  try {
+                    const customData = typeof horse.customData === 'string'
+                      ? JSON.parse(horse.customData)
+                      : horse.customData || {};
+                    const value = customData[field.key];
+                    if (!value) return null;
+
+                    return (
+                      <div key={field.id} className="flex justify-between">
+                        <span className="font-medium">{field.label}:</span>
+                        <span>{value}</span>
+                      </div>
+                    );
+                  } catch {
+                    return null;
+                  }
+                })}
               </div>
 
               <div className="flex gap-3 pt-4 border-t border-gray-200">
@@ -406,6 +425,24 @@ export default function HorsesPage() {
                         <div>
                           <span className="font-medium">Omanik:</span> {horse.owner}
                         </div>
+                        {/* Custom Fields */}
+                        {customFields.map((field) => {
+                          try {
+                            const customData = typeof horse.customData === 'string'
+                              ? JSON.parse(horse.customData)
+                              : horse.customData || {};
+                            const value = customData[field.key];
+                            if (!value) return null;
+
+                            return (
+                              <div key={field.id}>
+                                <span className="font-medium">{field.label}:</span> {value}
+                              </div>
+                            );
+                          } catch {
+                            return null;
+                          }
+                        })}
                       </div>
                     </div>
                     <div className="flex sm:flex-col gap-2">
