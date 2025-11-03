@@ -195,11 +195,11 @@ export default function CustomFieldsPage() {
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm text-gray-900">
                         <div>
-                          <span className="font-medium">Tüüp:</span>{" "}
-                          {FIELD_TYPES.find((t) => t.value === field.fieldType)?.label}
+                          <span className="font-medium">Key:</span> {field.key}
                         </div>
                         <div>
-                          <span className="font-medium">Key:</span> {field.key}
+                          <span className="font-medium">Tüüp:</span>{" "}
+                          {FIELD_TYPES.find((t) => t.value === field.fieldType)?.label}
                         </div>
                         {field.helpText && (
                           <div className="col-span-2 sm:col-span-3">
