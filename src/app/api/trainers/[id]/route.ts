@@ -55,7 +55,7 @@ export async function PUT(
     const body = await request.json();
     const { name, email, phone, specialties } = body;
 
-    const now = new Date();
+    const now = new Date().toISOString();
 
     // Store specialties as JSON string
     const specialtiesJSON = JSON.stringify(specialties);

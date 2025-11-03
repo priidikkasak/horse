@@ -85,7 +85,7 @@ export async function POST(request: Request) {
     const { name, breed, age, color, owner, status, stallNumber } = body;
 
     const id = Date.now().toString();
-    const now = new Date();
+    const now = new Date().toISOString();
 
     await sql`
       INSERT INTO horses (id, name, breed, age, color, owner, status, stall_number, created_at, updated_at)
@@ -101,8 +101,8 @@ export async function POST(request: Request) {
       owner,
       status,
       stallNumber: stallNumber || null,
-      createdAt: now,
-      updatedAt: now,
+      createdAt: new Date(now),
+      updatedAt: new Date(now),
       medicalRecords: [],
       vaccinations: [],
       trainingNotes: [],

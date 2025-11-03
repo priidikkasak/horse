@@ -96,7 +96,7 @@ export async function PUT(
     const body = await request.json();
     const { name, breed, age, color, owner, status, stallNumber } = body;
 
-    const now = new Date();
+    const now = new Date().toISOString();
 
     await sql`
       UPDATE horses

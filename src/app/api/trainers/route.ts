@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     const { name, email, phone, specialties } = body;
 
     const id = Date.now().toString();
-    const now = new Date();
+    const now = new Date().toISOString();
 
     // Store specialties as JSON string
     const specialtiesJSON = JSON.stringify(specialties);
@@ -58,8 +58,8 @@ export async function POST(request: Request) {
       phone,
       specialties,
       availability: [],
-      createdAt: now,
-      updatedAt: now,
+      createdAt: new Date(now),
+      updatedAt: new Date(now),
     };
 
     return NextResponse.json(newTrainer, { status: 201 });
