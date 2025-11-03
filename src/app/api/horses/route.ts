@@ -14,6 +14,7 @@ export async function GET() {
         owner,
         status,
         stall_number as "stallNumber",
+        "customData",
         created_at as "createdAt",
         updated_at as "updatedAt"
       FROM horses
