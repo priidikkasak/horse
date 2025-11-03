@@ -151,8 +151,8 @@ export default function CustomFieldsPage() {
     <div className="min-h-screen bg-white">
       <main className="max-w-7xl mx-auto py-12 px-6 sm:px-8 lg:px-12">
         <div className="mb-8">
-          <Link href="/" className="text-gray-500 hover:text-gray-900 text-base font-medium transition-colors">
-            ← Tagasi avalehele
+          <Link href="/horses" className="text-gray-500 hover:text-gray-900 text-base font-medium transition-colors">
+            ← Tagasi hobuste lehele
           </Link>
         </div>
 
