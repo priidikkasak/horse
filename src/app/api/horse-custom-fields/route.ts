@@ -1,14 +1,27 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { sql } from '@vercel/postgres';
 
 // GET all custom fields
 export async function GET() {
   try {
-    const fields = await prisma.horseCustomField.findMany({
-      orderBy: { displayOrder: 'asc' },
-    });
+    const { rows } = await sql`
+      SELECT
+        id,
+        label,
+        key,
+        "fieldType",
+        options,
+        required,
+        placeholder,
+        "helpText",
+        "displayOrder",
+        "createdAt",
+        "updatedAt"
+      FROM horse_custom_fields
+      ORDER BY "displayOrder" ASC
+    `;
 
-    return NextResponse.json(fields);
+    return NextResponse.json(rows);
   } catch (error) {
     console.error('Error fetching custom fields:', error);
     return NextResponse.json(
@@ -25,31 +38,51 @@ export async function POST(request: Request) {
     const { label, key, fieldType, options, required, placeholder, helpText, displayOrder } = body;
 
     // Check if key already exists
-    const existing = await prisma.horseCustomField.findUnique({
-      where: { key },
-    });
+    const { rows: existing } = await sql`
+      SELECT id FROM horse_custom_fields WHERE key = ${key}
+    `;
 
-    if (existing) {
+    if (existing.length > 0) {
       return NextResponse.json(
         { error: 'A field with this key already exists' },
         { status: 400 }
       );
     }
 
-    const field = await prisma.horseCustomField.create({
-      data: {
+    // Generate ID
+    const id = `cf_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    const now = new Date().toISOString();
+
+    const { rows } = await sql`
+      INSERT INTO horse_custom_fields (
+        id,
         label,
         key,
-        fieldType,
-        options: options || null,
-        required: required || false,
-        placeholder: placeholder || null,
-        helpText: helpText || null,
-        displayOrder: displayOrder || 0,
-      },
-    });
+        "fieldType",
+        options,
+        required,
+        placeholder,
+        "helpText",
+        "displayOrder",
+        "createdAt",
+        "updatedAt"
+      ) VALUES (
+        ${id},
+        ${label},
+        ${key},
+        ${fieldType},
+        ${JSON.stringify(options || null)},
+        ${required || false},
+        ${placeholder || null},
+        ${helpText || null},
+        ${displayOrder || 0},
+        ${now},
+        ${now}
+      )
+      RETURNING *
+    `;
 
-    return NextResponse.json(field, { status: 201 });
+    return NextResponse.json(rows[0], { status: 201 });
   } catch (error) {
     console.error('Error creating custom field:', error);
     return NextResponse.json(
