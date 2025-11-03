@@ -4,12 +4,22 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Horse } from "@/types";
 
+interface CustomField {
+  id: string;
+  label: string;
+  key: string;
+  fieldType: string;
+  displayOrder: number;
+}
+
 export default function HorseDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const [horse, setHorse] = useState<Horse | null>(null);
+  const [customFields, setCustomFields] = useState<CustomField[]>([]);
+  const [customData, setCustomData] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
   const [id, setId] = useState<string>("");
 
@@ -17,6 +27,7 @@ export default function HorseDetailPage({
     params.then((p) => {
       setId(p.id);
       fetchHorse(p.id);
+      fetchCustomFields();
     });
   }, [params]);
 
@@ -26,11 +37,52 @@ export default function HorseDetailPage({
       if (response.ok) {
         const data = await response.json();
         setHorse(data);
+
+        // Parse customData
+        try {
+          const parsed = typeof data.customData === 'string'
+            ? JSON.parse(data.customData)
+            : data.customData || {};
+          setCustomData(parsed);
+        } catch {
+          setCustomData({});
+        }
       }
     } catch (error) {
       console.error("Error fetching horse:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchCustomFields = async () => {
+    try {
+      const response = await fetch("/api/horse-custom-fields");
+      if (response.ok) {
+        const data = await response.json();
+        setCustomFields(data);
+      }
+    } catch (error) {
+      console.error("Error fetching custom fields:", error);
+    }
+  };
+
+  const formatCustomValue = (value: any, fieldType: string) => {
+    if (value === null || value === undefined || value === '') {
+      return '-';
+    }
+
+    switch (fieldType) {
+      case 'DATE':
+        try {
+          return new Date(value).toLocaleDateString();
+        } catch {
+          return value;
+        }
+      case 'CHECKBOX':
+        return value === true || value === 'true' ? 'Jah' : 'Ei';
+      default:
+        return String(value);
     }
   };
 
@@ -94,7 +146,7 @@ export default function HorseDetailPage({
             </span>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-6">
             <div>
               <p className="text-sm font-medium text-gray-500 mb-1">Vanus</p>
               <p className="text-xl font-semibold text-gray-900">{horse.age} aastat</p>
@@ -108,6 +160,28 @@ export default function HorseDetailPage({
               <p className="text-xl font-semibold text-gray-900">{horse.owner}</p>
             </div>
           </div>
+
+          {/* Custom Fields Section */}
+          {customFields.length > 0 && Object.keys(customData).length > 0 && (
+            <div className="border-t border-gray-200 pt-6 mt-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Lisainfo</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                {customFields.map((field) => {
+                  const value = customData[field.key];
+                  if (value === null || value === undefined || value === '') return null;
+
+                  return (
+                    <div key={field.id}>
+                      <p className="text-sm font-medium text-gray-500 mb-1">{field.label}</p>
+                      <p className="text-lg font-semibold text-gray-900">
+                        {formatCustomValue(value, field.fieldType)}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

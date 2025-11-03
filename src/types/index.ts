@@ -7,6 +7,7 @@ export interface Horse {
   owner: string;
   status: 'active' | 'injured' | 'retired';
   stallNumber?: string;
+  customData?: string | Record<string, any>;
   medicalRecords: MedicalRecord[];
   vaccinations: Vaccination[];
   trainingNotes: TrainingNote[];

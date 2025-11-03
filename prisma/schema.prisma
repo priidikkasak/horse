@@ -1,0 +1,100 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+}
+
+model Horse {
+  id        String   @id @default(cuid())
+  name      String
+  breed     String
+  age       Int
+  color     String
+  owner     String
+  status    String   @default("active") // active, injured, retired
+  customData Json    @default("{}")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  medicalRecords MedicalRecord[]
+  vaccinations   Vaccination[]
+  trainingNotes  TrainingNote[]
+
+  @@map("horses")
+}
+
+model HorseCustomField {
+  id           String   @id @default(cuid())
+  label        String   // Display name (e.g., "Mikrokiibi number")
+  key          String   // Internal key (e.g., "microchip")
+  fieldType    String   // TEXT, NUMBER, DATE, TEXTAREA, SELECT, CHECKBOX
+  options      Json?    // For SELECT type: ["Option 1", "Option 2"]
+  required     Boolean  @default(false)
+  placeholder  String?
+  helpText     String?
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([key]) // Ensure unique keys globally
+  @@map("horse_custom_fields")
+}
+
+model Trainer {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String
+  specialties Json     // Array of specialties
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("trainers")
+}
+
+model MedicalRecord {
+  id           String   @id @default(cuid())
+  horseId      String
+  date         DateTime
+  type         String
+  description  String
+  veterinarian String
+  createdAt    DateTime @default(now())
+
+  horse Horse @relation(fields: [horseId], references: [id], onDelete: Cascade)
+
+  @@map("medical_records")
+}
+
+model Vaccination {
+  id           String   @id @default(cuid())
+  horseId      String
+  name         String
+  date         DateTime
+  nextDue      DateTime
+  veterinarian String
+  createdAt    DateTime @default(now())
+
+  horse Horse @relation(fields: [horseId], references: [id], onDelete: Cascade)
+
+  @@map("vaccinations")
+}
+
+model TrainingNote {
+  id        String   @id @default(cuid())
+  horseId   String
+  date      DateTime
+  trainer   String
+  duration  Int      // minutes
+  notes     String
+  createdAt DateTime @default(now())
+
+  horse Horse @relation(fields: [horseId], references: [id], onDelete: Cascade)
+
+  @@map("training_notes")
+}

@@ -4,13 +4,27 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Horse } from "@/types";
 
+interface CustomField {
+  id: string;
+  label: string;
+  key: string;
+  fieldType: string;
+  options: string[] | null;
+  required: boolean;
+  placeholder: string | null;
+  helpText: string | null;
+  displayOrder: number;
+}
+
 export default function HorsesPage() {
   const [horses, setHorses] = useState<Horse[]>([]);
   const [view, setView] = useState<"grid" | "list">("grid");
+  const [customFields, setCustomFields] = useState<CustomField[]>([]);
 
-  // Load horses from API on mount
+  // Load horses and custom fields from API on mount
   useEffect(() => {
     fetchHorses();
+    fetchCustomFields();
   }, []);
 
   const fetchHorses = async () => {
@@ -24,6 +38,19 @@ export default function HorsesPage() {
       console.error("Error fetching horses:", error);
     }
   };
+
+  const fetchCustomFields = async () => {
+    try {
+      const response = await fetch("/api/horse-custom-fields");
+      if (response.ok) {
+        const data = await response.json();
+        setCustomFields(data);
+      }
+    } catch (error) {
+      console.error("Error fetching custom fields:", error);
+    }
+  };
+
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingHorse, setEditingHorse] = useState<Horse | null>(null);
   const [formData, setFormData] = useState({
@@ -35,6 +62,7 @@ export default function HorsesPage() {
     status: "active" as "active" | "injured" | "retired",
     stallNumber: ""
   });
+  const [customData, setCustomData] = useState<Record<string, any>>({});
 
   const handleAdd = () => {
     setEditingHorse(null);
@@ -47,6 +75,7 @@ export default function HorsesPage() {
       status: "active",
       stallNumber: ""
     });
+    setCustomData({});
     setIsFormOpen(true);
   };
 
@@ -61,6 +90,15 @@ export default function HorsesPage() {
       status: horse.status,
       stallNumber: horse.stallNumber || ""
     });
+    // Parse customData if it exists
+    try {
+      const parsed = typeof horse.customData === 'string'
+        ? JSON.parse(horse.customData)
+        : horse.customData || {};
+      setCustomData(parsed);
+    } catch {
+      setCustomData({});
+    }
     setIsFormOpen(true);
   };
 
@@ -81,31 +119,121 @@ export default function HorsesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Combine standard and custom data
+    const payload = {
+      ...formData,
+      customData: JSON.stringify(customData)
+    };
+
     try {
       if (editingHorse) {
         const response = await fetch(`/api/horses/${editingHorse.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(payload),
         });
         if (response.ok) {
-          setHorses(horses.map(h => h.id === editingHorse.id ? { ...h, ...formData } : h));
+          fetchHorses(); // Refresh to get updated data
         }
       } else {
         const response = await fetch("/api/horses", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(payload),
         });
         if (response.ok) {
-          const newHorse = await response.json();
-          setHorses([...horses, newHorse]);
+          fetchHorses(); // Refresh to get new data
         }
       }
       setIsFormOpen(false);
       setEditingHorse(null);
     } catch (error) {
       console.error("Error saving horse:", error);
+    }
+  };
+
+  const renderCustomField = (field: CustomField) => {
+    const value = customData[field.key] || '';
+
+    switch (field.fieldType) {
+      case 'TEXT':
+        return (
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => setCustomData({ ...customData, [field.key]: e.target.value })}
+            required={field.required}
+            placeholder={field.placeholder || ''}
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
+          />
+        );
+
+      case 'NUMBER':
+        return (
+          <input
+            type="number"
+            value={value}
+            onChange={(e) => setCustomData({ ...customData, [field.key]: e.target.value })}
+            required={field.required}
+            placeholder={field.placeholder || ''}
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
+          />
+        );
+
+      case 'DATE':
+        return (
+          <input
+            type="date"
+            value={value}
+            onChange={(e) => setCustomData({ ...customData, [field.key]: e.target.value })}
+            required={field.required}
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
+          />
+        );
+
+      case 'TEXTAREA':
+        return (
+          <textarea
+            value={value}
+            onChange={(e) => setCustomData({ ...customData, [field.key]: e.target.value })}
+            required={field.required}
+            placeholder={field.placeholder || ''}
+            rows={3}
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
+          />
+        );
+
+      case 'SELECT':
+        return (
+          <select
+            value={value}
+            onChange={(e) => setCustomData({ ...customData, [field.key]: e.target.value })}
+            required={field.required}
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
+          >
+            <option value="">Vali...</option>
+            {field.options?.map((option, idx) => (
+              <option key={idx} value={option}>{option}</option>
+            ))}
+          </select>
+        );
+
+      case 'CHECKBOX':
+        return (
+          <div className="flex items-center gap-3 pt-2">
+            <input
+              type="checkbox"
+              checked={value === true || value === 'true'}
+              onChange={(e) => setCustomData({ ...customData, [field.key]: e.target.checked })}
+              className="w-5 h-5 rounded border-gray-300 text-gray-900 focus:ring-2 focus:ring-gray-900"
+            />
+            <span className="text-sm text-gray-600">{field.placeholder || 'Jah'}</span>
+          </div>
+        );
+
+      default:
+        return null;
     }
   };
 
@@ -119,7 +247,16 @@ export default function HorsesPage() {
         </div>
 
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <h1 className="text-4xl sm:text-5xl font-semibold text-gray-900 tracking-tight">Hobused</h1>
+          <div className="flex items-center gap-4">
+            <h1 className="text-4xl sm:text-5xl font-semibold text-gray-900 tracking-tight">Hobused</h1>
+            <Link
+              href="/settings/custom-fields"
+              className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+              title="Halda kohandatud välju"
+            >
+              ⚙️ Seaded
+            </Link>
+          </div>
           <button
             onClick={handleAdd}
             className="bg-gray-900 text-white px-6 py-3 rounded-2xl hover:bg-gray-800 transition-all duration-200 font-medium whitespace-nowrap"
@@ -321,6 +458,7 @@ export default function HorsesPage() {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Standard Fields */}
                 <div>
                   <label className="block text-base font-medium text-gray-700 mb-2">
                     Nimi *
@@ -389,18 +527,6 @@ export default function HorsesPage() {
 
                 <div>
                   <label className="block text-base font-medium text-gray-700 mb-2">
-                    Boksi Number
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.stallNumber}
-                    onChange={(e) => setFormData({ ...formData, stallNumber: e.target.value })}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-base font-medium text-gray-700 mb-2">
                     Staatus *
                   </label>
                   <select
@@ -414,6 +540,19 @@ export default function HorsesPage() {
                     <option value="retired">Pensionil</option>
                   </select>
                 </div>
+
+                {/* Custom Fields */}
+                {customFields.map((field) => (
+                  <div key={field.id} className={field.fieldType === 'TEXTAREA' ? 'md:col-span-2' : ''}>
+                    <label className="block text-base font-medium text-gray-700 mb-2">
+                      {field.label} {field.required && '*'}
+                    </label>
+                    {renderCustomField(field)}
+                    {field.helpText && (
+                      <p className="text-sm text-gray-500 mt-1">{field.helpText}</p>
+                    )}
+                  </div>
+                ))}
               </div>
 
               <div className="flex justify-end gap-4 pt-6">
