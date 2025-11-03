@@ -9,9 +9,11 @@ export async function GET() {
       ADD COLUMN IF NOT EXISTS "customData" JSONB NOT NULL DEFAULT '{}'
     `;
 
-    // Create horse_custom_fields table
+    // Drop and recreate horse_custom_fields table with correct column names
+    await sql`DROP TABLE IF EXISTS horse_custom_fields`;
+
     await sql`
-      CREATE TABLE IF NOT EXISTS horse_custom_fields (
+      CREATE TABLE horse_custom_fields (
         id TEXT PRIMARY KEY,
         label TEXT NOT NULL,
         key TEXT NOT NULL UNIQUE,
@@ -21,8 +23,8 @@ export async function GET() {
         placeholder TEXT,
         "helpText" TEXT,
         "displayOrder" INTEGER NOT NULL DEFAULT 0,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `;
 
@@ -30,7 +32,7 @@ export async function GET() {
       message: 'Migration completed successfully',
       changes: [
         'Added customData column to horses table',
-        'Created horse_custom_fields table'
+        'Recreated horse_custom_fields table with correct column names'
       ]
     });
   } catch (error) {
