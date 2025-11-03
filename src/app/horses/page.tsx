@@ -76,6 +76,7 @@ export default function HorsesPage() {
       stallNumber: ""
     });
     setCustomData({});
+    fetchCustomFields(); // Refresh custom fields
     setIsFormOpen(true);
   };
 
@@ -99,6 +100,7 @@ export default function HorsesPage() {
     } catch {
       setCustomData({});
     }
+    fetchCustomFields(); // Refresh custom fields
     setIsFormOpen(true);
   };
 
