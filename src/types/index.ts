@@ -16,33 +16,29 @@ export interface Horse {
 
 export interface MedicalRecord {
   id: string;
-  horseId: string;
+  horseId?: string;
   date: Date;
-  diagnosis: string;
-  treatment: string;
+  type: string;
+  description: string;
   veterinarian: string;
-  notes?: string;
 }
 
 export interface Vaccination {
   id: string;
-  horseId: string;
-  vaccineName: string;
-  dateAdministered: Date;
-  nextDueDate: Date;
+  horseId?: string;
+  name: string;
+  date: Date;
+  nextDue: Date;
   veterinarian: string;
-  batchNumber?: string;
 }
 
 export interface TrainingNote {
   id: string;
-  horseId: string;
+  horseId?: string;
   date: Date;
-  trainerId: string;
-  activity: string;
-  duration: number; // minutes
+  trainer: string;
+  duration: number;
   notes: string;
-  performance: 'excellent' | 'good' | 'average' | 'needs improvement';
 }
 
 export interface Trainer {
