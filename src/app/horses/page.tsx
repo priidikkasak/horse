@@ -341,8 +341,7 @@ export default function HorsesPage() {
                     const customData = typeof horse.customData === 'string'
                       ? JSON.parse(horse.customData)
                       : horse.customData || {};
-                    const value = customData[field.key];
-                    if (!value) return null;
+                    const value = customData[field.key] || '-';
 
                     return (
                       <div key={field.id} className="flex justify-between">
@@ -351,7 +350,12 @@ export default function HorsesPage() {
                       </div>
                     );
                   } catch {
-                    return null;
+                    return (
+                      <div key={field.id} className="flex justify-between">
+                        <span className="font-medium">{field.label}:</span>
+                        <span>-</span>
+                      </div>
+                    );
                   }
                 })}
               </div>
@@ -431,8 +435,7 @@ export default function HorsesPage() {
                             const customData = typeof horse.customData === 'string'
                               ? JSON.parse(horse.customData)
                               : horse.customData || {};
-                            const value = customData[field.key];
-                            if (!value) return null;
+                            const value = customData[field.key] || '-';
 
                             return (
                               <div key={field.id}>
@@ -440,7 +443,11 @@ export default function HorsesPage() {
                               </div>
                             );
                           } catch {
-                            return null;
+                            return (
+                              <div key={field.id}>
+                                <span className="font-medium">{field.label}:</span> -
+                              </div>
+                            );
                           }
                         })}
                       </div>
