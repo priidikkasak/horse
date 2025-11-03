@@ -2,29 +2,28 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { mockTrainers } from "@/lib/data";
 import { Trainer } from "@/types";
 
 export default function TrainersPage() {
   const [trainers, setTrainers] = useState<Trainer[]>([]);
   const [view, setView] = useState<"grid" | "list">("grid");
 
-  // Load trainers from localStorage on mount
+  // Load trainers from API on mount
   useEffect(() => {
-    const saved = localStorage.getItem("trainers");
-    if (saved) {
-      setTrainers(JSON.parse(saved));
-    } else {
-      setTrainers(mockTrainers);
-    }
+    fetchTrainers();
   }, []);
 
-  // Save trainers to localStorage whenever they change
-  useEffect(() => {
-    if (trainers.length > 0) {
-      localStorage.setItem("trainers", JSON.stringify(trainers));
+  const fetchTrainers = async () => {
+    try {
+      const response = await fetch("/api/trainers");
+      if (response.ok) {
+        const data = await response.json();
+        setTrainers(data);
+      }
+    } catch (error) {
+      console.error("Error fetching trainers:", error);
     }
-  }, [trainers]);
+  };
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingTrainer, setEditingTrainer] = useState<Trainer | null>(null);
   const [formData, setFormData] = useState({
@@ -56,38 +55,67 @@ export default function TrainersPage() {
     setIsFormOpen(true);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Kas oled kindel, et soovid selle treeneri kustutada?")) {
-      setTrainers(trainers.filter((t) => t.id !== id));
+      try {
+        const response = await fetch(`/api/trainers/${id}`, {
+          method: "DELETE",
+        });
+        if (response.ok) {
+          setTrainers(trainers.filter((t) => t.id !== id));
+        }
+      } catch (error) {
+        console.error("Error deleting trainer:", error);
+      }
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const specialtiesArray = formData.specialties.split(",").map(s => s.trim()).filter(s => s);
 
-    if (editingTrainer) {
-      setTrainers(trainers.map(t => t.id === editingTrainer.id ? {
-        ...t,
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        specialties: specialtiesArray
-      } : t));
-    } else {
-      const newTrainer: Trainer = {
-        id: Date.now().toString(),
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        specialties: specialtiesArray,
-        availability: [],
-        createdAt: new Date()
-      };
-      setTrainers([...trainers, newTrainer]);
+    try {
+      if (editingTrainer) {
+        const response = await fetch(`/api/trainers/${editingTrainer.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            specialties: specialtiesArray
+          }),
+        });
+        if (response.ok) {
+          setTrainers(trainers.map(t => t.id === editingTrainer.id ? {
+            ...t,
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            specialties: specialtiesArray
+          } : t));
+        }
+      } else {
+        const response = await fetch("/api/trainers", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            specialties: specialtiesArray
+          }),
+        });
+        if (response.ok) {
+          const newTrainer = await response.json();
+          setTrainers([...trainers, newTrainer]);
+        }
+      }
+      setIsFormOpen(false);
+      setEditingTrainer(null);
+    } catch (error) {
+      console.error("Error saving trainer:", error);
     }
-    setIsFormOpen(false);
-    setEditingTrainer(null);
   };
 
   return (

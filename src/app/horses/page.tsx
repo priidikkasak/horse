@@ -2,29 +2,28 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { mockHorses } from "@/lib/data";
 import { Horse } from "@/types";
 
 export default function HorsesPage() {
   const [horses, setHorses] = useState<Horse[]>([]);
   const [view, setView] = useState<"grid" | "list">("grid");
 
-  // Load horses from localStorage on mount
+  // Load horses from API on mount
   useEffect(() => {
-    const saved = localStorage.getItem("horses");
-    if (saved) {
-      setHorses(JSON.parse(saved));
-    } else {
-      setHorses(mockHorses);
-    }
+    fetchHorses();
   }, []);
 
-  // Save horses to localStorage whenever they change
-  useEffect(() => {
-    if (horses.length > 0) {
-      localStorage.setItem("horses", JSON.stringify(horses));
+  const fetchHorses = async () => {
+    try {
+      const response = await fetch("/api/horses");
+      if (response.ok) {
+        const data = await response.json();
+        setHorses(data);
+      }
+    } catch (error) {
+      console.error("Error fetching horses:", error);
     }
-  }, [horses]);
+  };
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingHorse, setEditingHorse] = useState<Horse | null>(null);
   const [formData, setFormData] = useState({
@@ -65,30 +64,49 @@ export default function HorsesPage() {
     setIsFormOpen(true);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Kas oled kindel, et soovid selle hobuse kustutada?")) {
-      setHorses(horses.filter((h) => h.id !== id));
+      try {
+        const response = await fetch(`/api/horses/${id}`, {
+          method: "DELETE",
+        });
+        if (response.ok) {
+          setHorses(horses.filter((h) => h.id !== id));
+        }
+      } catch (error) {
+        console.error("Error deleting horse:", error);
+      }
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingHorse) {
-      setHorses(horses.map(h => h.id === editingHorse.id ? { ...h, ...formData } : h));
-    } else {
-      const newHorse: Horse = {
-        id: Date.now().toString(),
-        ...formData,
-        medicalRecords: [],
-        vaccinations: [],
-        trainingNotes: [],
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-      setHorses([...horses, newHorse]);
+    try {
+      if (editingHorse) {
+        const response = await fetch(`/api/horses/${editingHorse.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+        if (response.ok) {
+          setHorses(horses.map(h => h.id === editingHorse.id ? { ...h, ...formData } : h));
+        }
+      } else {
+        const response = await fetch("/api/horses", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+        if (response.ok) {
+          const newHorse = await response.json();
+          setHorses([...horses, newHorse]);
+        }
+      }
+      setIsFormOpen(false);
+      setEditingHorse(null);
+    } catch (error) {
+      console.error("Error saving horse:", error);
     }
-    setIsFormOpen(false);
-    setEditingHorse(null);
   };
 
   return (
@@ -178,12 +196,6 @@ export default function HorsesPage() {
                   <span className="font-medium">Omanik:</span>
                   <span>{horse.owner}</span>
                 </div>
-                {horse.stallNumber && (
-                  <div className="flex justify-between">
-                    <span className="font-medium">Boks:</span>
-                    <span>{horse.stallNumber}</span>
-                  </div>
-                )}
               </div>
 
               <div className="flex gap-3 pt-4 border-t border-gray-200">
