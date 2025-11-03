@@ -162,13 +162,12 @@ export default function HorseDetailPage({
           </div>
 
           {/* Custom Fields Section */}
-          {customFields.length > 0 && Object.keys(customData).length > 0 && (
+          {customFields.length > 0 && (
             <div className="border-t border-gray-200 pt-6 mt-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Lisainfo</h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 {customFields.map((field) => {
                   const value = customData[field.key];
-                  if (value === null || value === undefined || value === '') return null;
 
                   return (
                     <div key={field.id}>
