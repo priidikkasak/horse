@@ -87,5 +87,18 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
     );
   }
 
-  return <>{children}</>;
+  return (
+    <div className="relative min-h-screen">
+      {/* Logout button in top-right corner */}
+      <div className="absolute top-6 right-6 z-50">
+        <button
+          onClick={handleLogout}
+          className="bg-gray-900 text-white px-6 py-2.5 rounded-xl hover:bg-gray-800 transition-all duration-200 font-medium shadow-sm"
+        >
+          Logi välja
+        </button>
+      </div>
+      {children}
+    </div>
+  );
 }
